@@ -61,7 +61,7 @@
 
 //int ballistaPosition = 0;
 //bool ballistaBtnPressed = false;
-bool intakeOn = false;
+bool intakeOn = true;
 bool intakeBtnPressed = false;
 
 /*---------------------------------------------------------------------------*/
@@ -135,28 +135,36 @@ task usercontrol()
   	motor[RRFDrive] = vexRT[1];
   	motor[RRRDrive] = vexRT[1];
 
-
+/*
   	// Ballista Positioning
-  	if (vexRT[Btn8R] == 1 && ballistaPosition == 0)
+  	if (vexRT[Btn8R] == 1)
   	{
-  		int pos = SensorValue[BallistaAxis];
-  		while (SensorValue[BallistaAxis] < pos+n)
-  		{
-  			motor[BallistaAxis] = Speed;
-  		}
-  		motor[BallistaAxis] = 0;
-  		ballistaPosition = 1;
+			ballistaBtnPressed = true;
   	}
-  	else if (vexRT[Btn8R] == 1 && ballistaPosition == 1)
+  	if (vexRT[Btn8R] == 0 && ballistaBtnPressed == true)
   	{
-  		while (SensorValue[BallistaAxis] > pos-n)
+  		ballistaBtnPressed = false;
+  		int pos = SensorValue[BallistaAxis]
+  		if (ballistaPosition == 0)
   		{
-  			motor[BallistaAxis] = Speed;
+  			while (SensorValue[BallistaAxis] < pos+n)
+  			{
+  				motor[BallistaAxis] = 127;
+  			}
+  			motor[BallistaAxis] = 0;
+  			ballistaPosition = 1;
   		}
-  		motor[BallistaAxis] = 0;
-  		ballistaPosition = 0;
+  		else
+  		{
+  			while (SensorValue[BallistaAxis] > pos-n)
+  			{
+  				motor[BallistaAxis] = -127;
+  			}
+  			motor[BallistaAxis] = 0;
+  			ballistaPosition = 0;
+  		}
   	}
-
+*/
 
   	// Ball intake toggle
   	if (vexRT[Btn7L] == 1)
