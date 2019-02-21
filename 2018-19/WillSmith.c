@@ -19,9 +19,9 @@
 /*                                                                           */
 /*                         VEXnet Joystick Weirdness                         */
 /*                                                                           */
-/*	So the joysticks on our VEXnet controller are acting up.  Because of     */
-/*	this, keep the following in mind when progamming it.  Up and down on the */
-/*	right stick is channel 1.  Left and right on the right stick is          */
+/*	So the joysticks on our VEXnet controller are labled weirdly.  Because   */
+/*	of this, keep the following in mind when progamming it.  Up and down on  */
+/*	the right stick is channel 1.  Left and right on the right stick is      */
 /*	channel 0.  Up and down on the left stick is channel 2, and left and     */
 /*	right on the left stick is channel 3.  If you are having problems with   */
 /*	controls, make sure that you have the channels set correctly!  If you    */
@@ -35,6 +35,7 @@
 /*                             Sensor Notes                                  */
 /*                                                                           */
 /*	 - Shaft Encoders > 360 counts per revolution (1 count = 1 degree)       */
+/*	 - IMEs > 627.2 counts per revolution                                    */
 /*                                                                           */
 /*---------------------------------------------------------------------------*/
 
