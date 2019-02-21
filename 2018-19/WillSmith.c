@@ -72,6 +72,7 @@ bool intakeBtnPressed = false;
 /*  or the autonomous and usercontrol tasks will not be started.  This       */
 /*  function is only called once after the cortex has been powered on and    */
 /*  not every time that the robot is disabled.                               */
+/*                                                                           */
 /*---------------------------------------------------------------------------*/
 
 void pre_auton()
@@ -91,6 +92,7 @@ void pre_auton()
 /*  a VEX Competition.                                                       */
 /*                                                                           */
 /*  You must modify the code to add your own robot specific commands here.   */
+/*                                                                           */
 /*---------------------------------------------------------------------------*/
 
 task autonomous()
@@ -118,6 +120,7 @@ task autonomous()
 /*  a VEX Competition.                                                       */
 /*                                                                           */
 /*  You must modify the code to add your own robot specific commands here.   */
+/*                                                                           */
 /*---------------------------------------------------------------------------*/
 
 task usercontrol()
