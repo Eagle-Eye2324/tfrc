@@ -78,6 +78,7 @@ void pre_auton()
 {
   resetMotorEncoder(LMDrive);
   resetMotorEncoder(RMDrive);
+	//resetMotorEncoder(BallistaAxis);
 
   bStopTasksBetweenModes = true;
 }
@@ -107,7 +108,6 @@ task autonomous()
 	}
 	// Move into position to fire a ball, and fire a ball, then move into position
 	// to fire a second ball and fire a second ball
-  AutonomousCodePlaceholderForTesting();
 }
 
 /*---------------------------------------------------------------------------*/
@@ -122,6 +122,7 @@ task autonomous()
 
 task usercontrol()
 {
+	motor[BallIntake] = 127;
   while (true)
   {
   	// Left side drive motors
