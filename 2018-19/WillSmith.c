@@ -6,9 +6,9 @@
 #pragma config(Motor,  port1,           LMDrive,       tmotorVex393_HBridge, openLoop, driveLeft, encoderPort, I2C_1)
 #pragma config(Motor,  port2,           RMDrive,       tmotorVex393_MC29, openLoop, reversed, driveRight, encoderPort, I2C_2)
 #pragma config(Motor,  port3,           LRRDrive,      tmotorVex393_MC29, openLoop, driveLeft)
-#pragma config(Motor,  port4,           LRFDrive,      tmotorVex393_MC29, openLoop, driveLeft)
+#pragma config(Motor,  port4,           LRFDrive,      tmotorVex393_MC29, openLoop, reversed, driveLeft)
 #pragma config(Motor,  port5,           RRRDrive,      tmotorVex393_MC29, openLoop, reversed, driveRight)
-#pragma config(Motor,  port6,           RRFDrive,      tmotorVex393_MC29, openLoop, reversed, driveRight)
+#pragma config(Motor,  port6,           RRFDrive,      tmotorVex393_MC29, openLoop, driveRight)
 #pragma config(Motor,  port7,           BallistaAxis,  tmotorVex393_MC29, openLoop)
 #pragma config(Motor,  port8,           BallIntake,    tmotorVex393_MC29, openLoop)
 #pragma config(DatalogSeries, 0, "Main Battery Level", Properties, immediateBatteryLevel, , 50)
@@ -21,9 +21,9 @@
 /*                                                                           */
 /*	So the joysticks on our VEXnet controller are acting up.  Because of     */
 /*	this, keep the following in mind when progamming it.  Up and down on the */
-/*	right stick is channel #.  Left and right on the right stick is          */
-/*	channel #.  Up and down on the left stick is channel #, and left and     */
-/*	right on the left stick is channel #.  If you are having problems with   */
+/*	right stick is channel 1.  Left and right on the right stick is          */
+/*	channel 0.  Up and down on the left stick is channel 2, and left and     */
+/*	right on the left stick is channel 3.  If you are having problems with   */
 /*	controls, make sure that you have the channels set correctly!  If you    */
 /*	mess up, it's entirely your fault!                                       */
 /* 		- Robbie                                                               */
@@ -94,6 +94,7 @@ void pre_auton()
 
 task autonomous()
 {
+	motor[BallIntake] = 127;
   if (SensorValue[AutonomousModeSwitch] == 1)
   {
 		// Move to get a ball off the center podium, starting from the close alliance
@@ -124,15 +125,17 @@ task usercontrol()
   while (true)
   {
   	// Left side drive motors
-  	motor[LMDrive] = vexRT[1];
-  	motor[LRFDrive] = vexRT[1];
-  	motor[LRRDrive] = vexRT[1];
-  	// Right side drive motors
-  	motor[RMDrive] = vexRT[2];
-  	motor[RRFDrive] = vexRT[2];
-  	motor[RRRDrive] = vexRT[2];
+  	motor[LMDrive] = vexRT[2];
+  	motor[LRFDrive] = vexRT[2];
+  	motor[LRRDrive] = vexRT[2];
 
-/*
+
+  	// Right side drive motors
+  	motor[RMDrive] = vexRT[1];
+  	motor[RRFDrive] = vexRT[1];
+  	motor[RRRDrive] = vexRT[1];
+
+
   	// Ballista Positioning
   	if (vexRT[Btn8R] == 1 && ballistaPosition == 0)
   	{
@@ -153,7 +156,7 @@ task usercontrol()
   		motor[BallistaAxis] = 0;
   		ballistaPosition = 0;
   	}
- */
+
 
   	// Ball intake toggle
   	if (vexRT[Btn7L] == 1)
