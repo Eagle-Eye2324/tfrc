@@ -65,7 +65,7 @@
 //int ballistaPosition = 0;
 //bool ballistaBtnPressed = false;
 bool fireBtnPressed = false;
-bool intakeOn = true;
+bool intakeOn = false;
 bool intakeBtnPressed = false;
 
 /*---------------------------------------------------------------------------*/
@@ -140,6 +140,8 @@ task autonomous()
 			motor[RRRDrive] = 127;
 			motor[RRFDrive] = 127;
 		}
+		sleep(1000);
+		motor[BallIntake] = 0;
 		pos = getMotorEncoder(port2);
 		while (getMotorEncoder(port2) > pos - 418.2489511180865)
 		{
@@ -147,6 +149,16 @@ task autonomous()
 			motor[RMDrive] = -127;
 			motor[LRRDrive] = -127;
 			motor[LRFDrive] = -127;
+			motor[RRRDrive] = -127;
+			motor[RRFDrive] = -127;
+		}
+		pos = getMotorEncoder(port1);
+  	while (getMotorEncoder(port1) > pos - 125.75359521624250763410040501014)
+		{
+			motor[LMDrive] = 127;
+			motor[RMDrive] = -127;
+			motor[LRRDrive] = 127;
+			motor[LRFDrive] = 127;
 			motor[RRRDrive] = -127;
 			motor[RRFDrive] = -127;
 		}
@@ -173,6 +185,8 @@ task autonomous()
 			motor[RRRDrive] = 127;
 			motor[RRFDrive] = 127;
 		}
+		sleep(1000);
+		motor[BallIntake] = 0;
 		pos = getMotorEncoder(port2);
 		while (getMotorEncoder(port2) > pos - 418.2489511180865)
 		{
@@ -182,6 +196,16 @@ task autonomous()
 			motor[LRFDrive] = -127;
 			motor[RRRDrive] = -127;
 			motor[RRFDrive] = -127;
+		}
+		pos = getMotorEncoder(port1);
+  	while (getMotorEncoder(port1) < pos + 125.75359521624250763410040501014)
+		{
+			motor[LMDrive] = -127;
+			motor[RMDrive] = 127;
+			motor[LRRDrive] = -127;
+			motor[LRFDrive] = -127;
+			motor[RRRDrive] = 127;
+			motor[RRFDrive] = 127;
 		}
 	}
 	// Move into position to fire a ball, and fire a ball, then move into position
@@ -201,7 +225,6 @@ task autonomous()
 
 task usercontrol()
 {
-	motor[BallIntake] = 127;
   while (true)
   {
   	// Left side drive motors
