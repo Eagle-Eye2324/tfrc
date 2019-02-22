@@ -63,7 +63,6 @@
 /*---------------------------------------------------------------------------*/
 
 //int ballistaPosition = 0;
-//bool ballistaBtnPressed = false;
 bool fireBtnPressed = false;
 bool intakeOn = false;
 bool intakeBtnPressed = false;
@@ -241,41 +240,34 @@ task usercontrol()
 
 /*
   	// Ballista Positioning
-  	if (vexRT[Btn8R] == 1)
+  	if (vexRT[Btn6U] == 1 && ballistaPosition == 0)
   	{
-			ballistaBtnPressed = true;
+  		float pos = SensorValue[BallistaAxis]
+			while (SensorValue[BallistaAxis] < pos+n)
+			{
+				motor[BallistaAxis] = 127;
+			}
+			motor[BallistaAxis] = 0;
+			ballistaPosition = 1;
   	}
-  	if (vexRT[Btn8R] == 0 && ballistaBtnPressed == true)
+  	if (vexRT[Btn6D] == 1 && ballistaPosition == 1)
   	{
-  		ballistaBtnPressed = false;
-  		int pos = SensorValue[BallistaAxis]
-  		if (ballistaPosition == 0)
-  		{
-  			while (SensorValue[BallistaAxis] < pos+n)
-  			{
-  				motor[BallistaAxis] = 127;
-  			}
-  			motor[BallistaAxis] = 0;
-  			ballistaPosition = 1;
-  		}
-  		else
-  		{
-  			while (SensorValue[BallistaAxis] > pos-n)
-  			{
-  				motor[BallistaAxis] = -127;
-  			}
-  			motor[BallistaAxis] = 0;
-  			ballistaPosition = 0;
-  		}
+  		float pos = SensorValue[BallistaAxis];
+			while (SensorValue[BallistaAxis] > pos-n)
+			{
+				motor[BallistaAxis] = -127;
+			}
+			motor[BallistaAxis] = 0;
+			ballistaPosition = 1;
   	}
 */
 
 		// Ballista firing mechanism
-		if (vexRT[Btn7L] == 1)
+		if (vexRT[Btn5U] == 1)
   	{
   		fireBtnPressed = true;
   	}
-  	if (vexRT[Btn7L] == 0 && fireBtnPressed == true)
+  	if (vexRT[Btn5U] == 0 && fireBtnPressed == true)
   	{
   		fireBtnPressed = false;
   		int pos = SensorValue[BallistaFire];
@@ -284,11 +276,11 @@ task usercontrol()
 
 
   	// Ball intake toggle
-  	if (vexRT[Btn7L] == 1)
+  	if (vexRT[Btn5D] == 1)
   	{
   		intakeBtnPressed = true;
   	}
-  	if (vexRT[Btn7L] == 0 && intakeBtnPressed == true)
+  	if (vexRT[Btn5D] == 0 && intakeBtnPressed == true)
   	{
   		intakeBtnPressed = false;
   		if (intakeOn == true)
