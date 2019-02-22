@@ -102,15 +102,87 @@ void pre_auton()
 task autonomous()
 {
 	motor[BallIntake] = 127;
+	float pos = getMotorEncoder(port2);
+	while (getMotorEncoder(port2) < pos + 327.9968024703564)
+	{
+		motor[LMDrive] = 127;
+		motor[RMDrive] = 127;
+		motor[LRRDrive] = 127;
+		motor[LRFDrive] = 127;
+		motor[RRRDrive] = 127;
+		motor[RRFDrive] = 127;
+	}
+	motor[LMDrive] = 0;
+	motor[RMDrive] = 0;
+	motor[LRRDrive] = 0;
+	motor[LRFDrive] = 0;
+	motor[RRRDrive] = 0;
+	motor[RRFDrive] = 0;
   if (SensorValue[AutonomousModeSwitch] == 1)
   {
-		// Move to get a ball off the center podium, starting from the close alliance
-  	// starting zone, then move to a certain position
+  	pos = getMotorEncoder(port2);
+  	while (getMotorEncoder(port2) < pos + 125.75359521624250763410040501014)
+		{
+			motor[LMDrive] = -127;
+			motor[RMDrive] = 127;
+			motor[LRRDrive] = -127;
+			motor[LRFDrive] = -127;
+			motor[RRRDrive] = 127;
+			motor[RRFDrive] = 127;
+		}
+		pos = getMotorEncoder(port1);
+		while (getMotorEncoder(port1) < pos + 418.2489511180865)
+		{
+			motor[LMDrive] = 127;
+			motor[RMDrive] = 127;
+			motor[LRRDrive] = 127;
+			motor[LRFDrive] = 127;
+			motor[RRRDrive] = 127;
+			motor[RRFDrive] = 127;
+		}
+		pos = getMotorEncoder(port2);
+		while (getMotorEncoder(port2) > pos - 418.2489511180865)
+		{
+			motor[LMDrive] = -127;
+			motor[RMDrive] = -127;
+			motor[LRRDrive] = -127;
+			motor[LRFDrive] = -127;
+			motor[RRRDrive] = -127;
+			motor[RRFDrive] = -127;
+		}
   }
   else
   {
-		// Move to get a ball off the center podium, starting from the far alliance
-  	// starting zone, then move to the same position
+		pos = getMotorEncoder(port2);
+  	while (getMotorEncoder(port2) > pos - 125.75359521624250763410040501014)
+		{
+			motor[LMDrive] = 127;
+			motor[RMDrive] = -127;
+			motor[LRRDrive] = 127;
+			motor[LRFDrive] = 127;
+			motor[RRRDrive] = -127;
+			motor[RRFDrive] = -127;
+		}
+		pos = getMotorEncoder(port1);
+		while (getMotorEncoder(port1) < pos + 418.2489511180865)
+		{
+			motor[LMDrive] = 127;
+			motor[RMDrive] = 127;
+			motor[LRRDrive] = 127;
+			motor[LRFDrive] = 127;
+			motor[RRRDrive] = 127;
+			motor[RRFDrive] = 127;
+		}
+		pos = getMotorEncoder(port2);
+		while (getMotorEncoder(port2) > pos - 418.2489511180865)
+		{
+			motor[LMDrive] = -127;
+			motor[RMDrive] = -127;
+			motor[LRRDrive] = -127;
+			motor[LRFDrive] = -127;
+			motor[RRRDrive] = -127;
+			motor[RRFDrive] = -127;
+		}
 	}
 	// Move into position to fire a ball, and fire a ball, then move into position
 	// to fire a second ball and fire a second ball
