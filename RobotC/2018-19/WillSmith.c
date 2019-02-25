@@ -63,6 +63,7 @@
 /*---------------------------------------------------------------------------*/
 
 //int ballistaPosition = 0;
+bool firing = false;
 bool fireBtnPressed = false;
 bool intakeOn = false;
 bool intakeBtnPressed = false;
@@ -100,7 +101,7 @@ void pre_auton()
 
 task autonomous()
 {
-	motor[BallIntake] = 127;/*
+	motor[BallIntake] = 127;
 	float pos = getMotorEncoder(port2);
 	while (getMotorEncoder(port2) < pos + 327.9968024703564)
 	{
@@ -208,7 +209,7 @@ task autonomous()
 		}
 	}
 	// Move into position to fire a ball, and fire a ball, then move into position
-	// to fire a second ball and fire a second ball*/
+	// to fire a second ball and fire a second ball
 	AutonomousCodePlaceholderForTesting();
 }
 
@@ -270,10 +271,17 @@ task usercontrol()
   	if (vexRT[Btn5U] == 0 && fireBtnPressed == true)
   	{
   		fireBtnPressed = false;
-  		int pos = SensorValue[BallistaFire];
-  		setMotorTarget(BallistaFire, pos+360, 127, true);
+  		if (firing == true)
+  		{
+  			motor[BallistaFire] = 0;
+  			firing = false;
+  		}
+  		else
+  		{
+  			motor[BallistaFire] = 127;
+  			firing = true;
+  		}
   	}
-
 
   	// Ball intake toggle
   	if (vexRT[Btn5D] == 1)
