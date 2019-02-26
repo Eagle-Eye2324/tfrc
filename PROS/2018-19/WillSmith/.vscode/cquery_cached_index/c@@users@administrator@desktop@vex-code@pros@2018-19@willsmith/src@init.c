@@ -7,7 +7,8 @@
  * obtained from http://sourceforge.net/projects/freertos/files/ or on request.
  */
 
-#include "main.h"
+#include <main.h>
+#include <stdio.h>
 
 /*
  * Runs pre-initialization code. This function will be started in kernel mode one time while the
@@ -18,6 +19,7 @@
  * configure a UART port (usartOpen()) but cannot set up an LCD (lcdInit()).
  */
 void initializeIO() {
+  // Configure the Autonomous mode limit switch
   pinMode(AUTONOMOUS_MODE_SWITCH, INPUT);
 }
 
@@ -38,6 +40,6 @@ void initialize() {
   // Check count to ensure all IMEs are plugged in!
   int IMECount = imeInitializeAll();
   if(IMECount != NUMBER_OF_IME){
-      cout << "The number of IMEs is incorrect!"
+      cout << "The number of IMEs is incorrect!" << endl;
   }
 }

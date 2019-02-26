@@ -24,10 +24,41 @@
             "-fdiagnostics-color",
             "-std=gnu99",
             "-o",
+            "bin/init.c.o",
+            "src\\init.c"
+        ],
+        "directory": "C:\\Users\\Administrator\\Desktop\\vex-code\\PROS\\2018-19\\WillSmith",
+        "file": "src\\init.c"
+    },
+    {
+        "arguments": [
+            "clang++",
+            "-c",
+            "-target",
+            "armv7ar-none-none-eabi",
+            "-fno-ms-extensions",
+            "-fno-ms-compatibility",
+            "-fno-delayed-template-parsing",
+            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include",
+            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include-fixed",
+            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include",
+            "-isystem./include",
+            "-iquote./include/./",
+            "-mthumb",
+            "-mcpu=cortex-m3",
+            "-mlittle-endian",
+            "-Os",
+            "-ffunction-sections",
+            "-fsigned-char",
+            "-fomit-frame-pointer",
+            "-fsingle-precision-constant",
+            "-fdiagnostics-color",
+            "-std=gnu99",
+            "-o",
             "bin/auto.c.o",
             "src\\auto.c"
         ],
-        "directory": "C:\\Users\\Administrator\\Desktop\\WillSmth",
+        "directory": "C:\\Users\\Administrator\\Desktop\\vex-code\\PROS\\2018-19\\WillSmith",
         "file": "src\\auto.c"
     },
     {
@@ -58,38 +89,7 @@
             "bin/opcontrol.c.o",
             "src\\opcontrol.c"
         ],
-        "directory": "C:\\Users\\Administrator\\Desktop\\WillSmth",
+        "directory": "C:\\Users\\Administrator\\Desktop\\vex-code\\PROS\\2018-19\\WillSmith",
         "file": "src\\opcontrol.c"
-    },
-    {
-        "arguments": [
-            "clang++",
-            "-c",
-            "-target",
-            "armv7ar-none-none-eabi",
-            "-fno-ms-extensions",
-            "-fno-ms-compatibility",
-            "-fno-delayed-template-parsing",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include-fixed",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include",
-            "-isystem./include",
-            "-iquote./include/./",
-            "-mthumb",
-            "-mcpu=cortex-m3",
-            "-mlittle-endian",
-            "-Os",
-            "-ffunction-sections",
-            "-fsigned-char",
-            "-fomit-frame-pointer",
-            "-fsingle-precision-constant",
-            "-fdiagnostics-color",
-            "-std=gnu99",
-            "-o",
-            "bin/init.c.o",
-            "src\\init.c"
-        ],
-        "directory": "C:\\Users\\Administrator\\Desktop\\WillSmth",
-        "file": "src\\init.c"
     }
 ]

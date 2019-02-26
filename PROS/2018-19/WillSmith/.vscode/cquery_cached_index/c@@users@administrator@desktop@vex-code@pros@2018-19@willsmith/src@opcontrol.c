@@ -27,19 +27,67 @@
  * This task should never exit; it should end with some kind of infinite loop, even if empty.
  */
 void operatorControl() {
-	int powerRight;
-	int powerLeft;
+	signed int right = 0;
+	signed int left = 0;
+	bool intakeBtnPressed = false;
+	bool intakeReverseBtnPressed = false;
+	signed int intakeMode = 0;
+
 	while (1 == 1) {
 		// Right side drive motors
-		powerRight = joystickGetAnalog(1, 2); // Get value of vertical axis on right stick
-		motorSet(RM_DRIVE_MOTOR, powerRight); // Set right middle motor
-		motorSet(RRF_DRIVE_MOTOR, powerRight); // Set right rear front motor
-		motorSet(RRR_DRIVE_MOTOR, powerRight); // Set right rear rear motors
+		right = joystickGetAnalog(1, 2); // Get value of vertical axis on right stick
+		motorSet(RM_DRIVE_MOTOR,  right * -1); // Set right middle motor
+		motorSet(RRF_DRIVE_MOTOR, right); // Set right rear front motor
+		motorSet(RRR_DRIVE_MOTOR, right * -1); // Set right rear rear motors
 
 		// Left side drive motorSet
-		powerLeft = joystickGetAnalog(1, 3); // Get value of vertical axis on left stick
-		motorSet(LM_DRIVE_MOTOR, powerLeft); // Set left middle motor
-		motorSet(LRF_DRIVE_MOTOR, powerLeft); // Set left rear front motor
-		motorSet(LRR_DRIVE_MOTOR, powerLeft); // Set left rear rear motors
+		left = joystickGetAnalog(1, 3); // Get value of vertical axis on left stick
+		motorSet(LM_DRIVE_MOTOR, left); // Set left middle motor
+		motorSet(LRF_DRIVE_MOTOR, left); // Set left rear front motor
+		motorSet(LRR_DRIVE_MOTOR, left * -1); // Set left rear rear motors
+
+		// Ball intake toggle and reverse
+		if (joystickGetDigital(1, 6, JOY_DOWN)){
+			intakeBtnPressed = true;
+		}
+		if (joystickGetDigital(1, 6, JOY_UP)){
+			intakeReverseBtnPressed = true;
+		}
+		if (joystickGetDigital(1, 6, JOY_DOWN)&&intakeBtnPressed){
+			intakeBtnPressed = false;
+			switch (intakeMode) {
+				case -1:
+					motorSet(BALL_INTAKE_MOTOR, 127);
+					intakeMode = 1;
+					break;
+				case 0:
+					motorSet(BALL_INTAKE_MOTOR, 127);
+					intakeMode = 1;
+					break;
+				case 1:
+					motorSet(BALL_INTAKE_MOTOR, 0);
+					intakeMode = 0;
+					break;
+			}
+		}
+		if (joystickGetDigital(1, 6, JOY_UP)&&intakeReverseBtnPressed){
+			intakeReverseBtnPressed = false;
+			switch (intakeMode) {
+				case 1:
+					motorSet(BALL_INTAKE_MOTOR, -127);
+					intakeMode = -1;
+					break;
+
+				case 0:
+					motorSet(BALL_INTAKE_MOTOR, -127);
+					intakeMode = -1;
+					break;
+
+				case -1:
+					motorSet(BALL_INTAKE_MOTOR, 0);
+					intakeMode = 0;
+					break;
+			}
+		}
 	}
 }
