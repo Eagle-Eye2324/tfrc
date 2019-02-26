@@ -39,6 +39,8 @@ extern "C" {
 #define RRF_DRIVE_MOTOR 4
 #define LRR_DRIVE_MOTOR 5
 #define RRR_DRIVE_MOTOR 6
+#define BALLISTA_FIRE_MOTOR 7
+#define BALL_INTAKE_MOTOR 8
 
 // IME definitions
 #define IME_RM_DRIVE_MOTOR 0
