@@ -36,7 +36,7 @@
 /*                             Sensor Notes                                  */
 /*                                                                           */
 /*	 - Shaft Encoders > 360 counts per revolution (1 count = 1 degree)       */
-/*	 - IMEs > 627.2 counts per revolution                                    */
+/*	 - IMEs > 627.2 counts per revolution (1.74222222222 = 1 degree)         */
 /*                                                                           */
 /*---------------------------------------------------------------------------*/
 
