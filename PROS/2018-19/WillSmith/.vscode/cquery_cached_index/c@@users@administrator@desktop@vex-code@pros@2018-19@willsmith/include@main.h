@@ -39,11 +39,17 @@ extern "C" {
 #define RRF_DRIVE_MOTOR 4
 #define LRR_DRIVE_MOTOR 5
 #define RRR_DRIVE_MOTOR 6
+#define BALLISTA_FIRE_MOTOR 7
+#define BALL_INTAKE_MOTOR 8
 
 // IME definitions
 #define IME_RM_DRIVE_MOTOR 0
 #define IME_LM_DRIVE_MOTOR 1
 #define NUMBER_OF_IME 2
+
+// Sensor definitions
+#define AUTONOMOUS_MODE_SWITCH 1 // Limit switch
+
 // A function prototype looks exactly like its declaration, but with a semicolon instead of
 // actual code. If a function does not match a prototype, compile errors will occur.
 

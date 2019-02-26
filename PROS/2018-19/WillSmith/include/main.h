@@ -46,6 +46,10 @@ extern "C" {
 #define IME_RM_DRIVE_MOTOR 0
 #define IME_LM_DRIVE_MOTOR 1
 #define NUMBER_OF_IME 2
+
+// Sensor definitions
+#define AUTONOMOUS_MODE_SWITCH 1 // Limit switch
+
 // A function prototype looks exactly like its declaration, but with a semicolon instead of
 // actual code. If a function does not match a prototype, compile errors will occur.
 

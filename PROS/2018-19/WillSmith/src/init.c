@@ -18,6 +18,7 @@
  * configure a UART port (usartOpen()) but cannot set up an LCD (lcdInit()).
  */
 void initializeIO() {
+  pinMode(AUTONOMOUS_MODE_SWITCH, INPUT);
 }
 
 /*
@@ -37,6 +38,6 @@ void initialize() {
   // Check count to ensure all IMEs are plugged in!
   int IMECount = imeInitializeAll();
   if(IMECount != NUMBER_OF_IME){
-      // something has gone wrong
+      cout << "The number of IMEs is incorrect!"
   }
 }
