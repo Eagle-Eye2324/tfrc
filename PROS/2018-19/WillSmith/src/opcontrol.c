@@ -38,15 +38,15 @@ void operatorControl() {
 	while (1 == 1) {
 		// Right side drive motors
 		right = joystickGetAnalog(1, 2); // Get value of vertical axis on right stick
-		motorSet(RM_DRIVE_MOTOR,  right * -1); // Set right middle motor
+		motorSet(RM_DRIVE_MOTOR,  right); // Set right middle motor
 		motorSet(RRF_DRIVE_MOTOR, right); // Set right rear front motor
-		motorSet(RRR_DRIVE_MOTOR, right * -1); // Set right rear rear motors
+		motorSet(RRR_DRIVE_MOTOR, right); // Set right rear rear motors
 
 		// Left side drive motors
 		left = joystickGetAnalog(1, 3); // Get value of vertical axis on left stick
 		motorSet(LM_DRIVE_MOTOR, left); // Set left middle motor
 		motorSet(LRF_DRIVE_MOTOR, left); // Set left rear front motor
-		motorSet(LRR_DRIVE_MOTOR, left * -1); // Set left rear rear motors
+		motorSet(LRR_DRIVE_MOTOR, left); // Set left rear rear motors
 
 		// Ball intake forward
 		if (joystickGetDigital(1, 5, JOY_DOWN)){
