@@ -32,7 +32,7 @@
 extern "C" {
 #endif
 
-// Motor and sensor definitons
+// Motor definitons
 #define RM_DRIVE_MOTOR 1
 #define LM_DRIVE_MOTOR 2
 #define LRF_DRIVE_MOTOR 3
@@ -42,13 +42,17 @@ extern "C" {
 #define BALLISTA_FIRE_MOTOR 7
 #define BALL_INTAKE_MOTOR 8
 
+// Digital sensor definitions
+#define AUTONOMOUS_MODE_SWITCH 1 // Limit switch
+
+// Analog sensor definitions
+
+// Quadrature encoder definitions
+
 // IME definitions
 #define IME_RM_DRIVE_MOTOR 0
 #define IME_LM_DRIVE_MOTOR 1
 #define NUMBER_OF_IME 2
-
-// Sensor definitions
-#define AUTONOMOUS_MODE_SWITCH 1 // Limit switch
 
 // A function prototype looks exactly like its declaration, but with a semicolon instead of
 // actual code. If a function does not match a prototype, compile errors will occur.
