@@ -78,11 +78,11 @@
 /*                                                                           */
 /*---------------------------------------------------------------------------*/
 
-//int ballistaPosition = 0;
 bool firing = false;
 bool fireBtnPressed = false;
-bool intakeOn = false;
+signed int intakeMode = 0;
 bool intakeBtnPressed = false;
+bool intakeReverseBtnPressed = false;
 
 /*---------------------------------------------------------------------------*/
 /*                          Pre-Autonomous Functions                         */
@@ -249,35 +249,10 @@ task usercontrol()
   	motor[LRFDrive] = vexRT[2];
   	motor[LRRDrive] = vexRT[2];
 
-
   	// Right side drive motors
   	motor[RMDrive] = vexRT[1];
   	motor[RRFDrive] = vexRT[1];
   	motor[RRRDrive] = vexRT[1];
-
-/*
-  	// Ballista Positioning
-  	if (vexRT[Btn6U] == 1 && ballistaPosition == 0)
-  	{
-  		float pos = SensorValue[BallistaAxis]
-			while (SensorValue[BallistaAxis] < pos+n)
-			{
-				motor[BallistaAxis] = 127;
-			}
-			motor[BallistaAxis] = 0;
-			ballistaPosition = 1;
-  	}
-  	if (vexRT[Btn6D] == 1 && ballistaPosition == 1)
-  	{
-  		float pos = SensorValue[BallistaAxis];
-			while (SensorValue[BallistaAxis] > pos-n)
-			{
-				motor[BallistaAxis] = -127;
-			}
-			motor[BallistaAxis] = 0;
-			ballistaPosition = 1;
-  	}
-*/
 
 		// Ballista firing mechanism
 		if (vexRT[Btn5U] == 1)
@@ -299,7 +274,7 @@ task usercontrol()
   		}
   	}
 
-  	// Ball intake toggle
+  	// Ball intake forward
   	if (vexRT[Btn5D] == 1)
   	{
   		intakeBtnPressed = true;
@@ -307,15 +282,49 @@ task usercontrol()
   	if (vexRT[Btn5D] == 0 && intakeBtnPressed == true)
   	{
   		intakeBtnPressed = false;
-  		if (intakeOn == true)
+  		switch (intakeMode)
+      {
+      	case -1:
+        	motor[BallIntake] = 127;
+        	intakeMode = 1;
+        	break;
+
+      	case 0:
+      		motor[BallIntake] = 127;
+        	intakeMode = 1;
+        	break;
+
+      	case 1:
+      		motor[BallIntake] = 0;
+      		intakeMode = 0;
+      		break;
+      }
+  	}
+
+  	// Ball intake reverse
+  	if (vexRT[Btn5U] == 1)
+  	{
+  		intakeReverseBtnPressed = true;
+  	}
+  	if (vexRT[Btn5U] == 0 && intakeReverseBtnPressed)
+  	{
+  		intakeReverseBtnPressed = false;
+  		switch (intakeMode)
   		{
-  			motor[BallIntake] = 0;
-  			intakeOn = false;
-  		}
-  		else
-  		{
-  			motor[BallIntake] = 127;
-  			intakeOn = true;
+  			case -1:
+  				motor[BallIntake] = 0;
+  				intakeMode = 0;
+  				break;
+
+  			case 0:
+  				motor[BallIntake] = -127;
+  				intakeMode = -1;
+  				break;
+
+  			case 1:
+  				motor[BallIntake] = -127;
+  				intakeMode = -1;
+  				break;
   		}
   	}
   }
