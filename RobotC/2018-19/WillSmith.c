@@ -1,5 +1,5 @@
 #pragma config(I2C_Usage, I2C1, i2cSensors)
-#pragma config(Sensor, dgtl5,  AutonomousModeSwitch, sensorTouch)
+#pragma config(Sensor, dgtl1,  AutonomousModeSwitch, sensorTouch)
 #pragma config(Sensor, I2C_1,  LeftDrive,      sensorQuadEncoderOnI2CPort,    , AutoAssign )
 #pragma config(Sensor, I2C_2,  RightDrive,     sensorQuadEncoderOnI2CPort,    , AutoAssign )
 #pragma config(Motor,  port1,           LMDrive,       tmotorVex393_HBridge, openLoop, driveLeft, encoderPort, I2C_1)
