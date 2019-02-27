@@ -255,11 +255,11 @@ task usercontrol()
   	motor[RRRDrive] = vexRT[1];
 
 		// Ballista firing mechanism
-		if (vexRT[Btn5U] == 1)
+		if (vexRT[Btn6D] == 1)
   	{
   		fireBtnPressed = true;
   	}
-  	if (vexRT[Btn5U] == 0 && fireBtnPressed == true)
+  	if (vexRT[Btn6D] == 0 && fireBtnPressed == true)
   	{
   		fireBtnPressed = false;
   		if (firing == true)
