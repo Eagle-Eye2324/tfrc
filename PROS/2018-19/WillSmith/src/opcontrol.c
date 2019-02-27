@@ -46,12 +46,9 @@ void operatorControl() {
 		motorSet(LRF_DRIVE_MOTOR, left); // Set left rear front motor
 		motorSet(LRR_DRIVE_MOTOR, left * -1); // Set left rear rear motors
 
-		// Ball intake toggle and reverse
+		// Ball intake forward
 		if (joystickGetDigital(1, 6, JOY_DOWN)){
 			intakeBtnPressed = true;
-		}
-		if (joystickGetDigital(1, 6, JOY_UP)){
-			intakeReverseBtnPressed = true;
 		}
 		if (joystickGetDigital(1, 6, JOY_DOWN)&&intakeBtnPressed){
 			intakeBtnPressed = false;
@@ -70,12 +67,17 @@ void operatorControl() {
 					break;
 			}
 		}
+
+		// Ball intake reverse
+		if (joystickGetDigital(1, 6, JOY_UP)){
+			intakeReverseBtnPressed = true;
+		}
 		if (joystickGetDigital(1, 6, JOY_UP)&&intakeReverseBtnPressed){
 			intakeReverseBtnPressed = false;
 			switch (intakeMode) {
-				case 1:
-					motorSet(BALL_INTAKE_MOTOR, -127);
-					intakeMode = -1;
+				case -1:
+					motorSet(BALL_INTAKE_MOTOR, 0);
+					intakeMode = 0;
 					break;
 
 				case 0:
@@ -83,9 +85,9 @@ void operatorControl() {
 					intakeMode = -1;
 					break;
 
-				case -1:
-					motorSet(BALL_INTAKE_MOTOR, 0);
-					intakeMode = 0;
+				case 1:
+					motorSet(BALL_INTAKE_MOTOR, -127);
+					intakeMode = -1;
 					break;
 			}
 		}
