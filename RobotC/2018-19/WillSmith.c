@@ -116,7 +116,7 @@ void pre_auton()
 /*---------------------------------------------------------------------------*/
 
 task autonomous()
-{
+{/*
 	motor[BallIntake] = 127;
 	float pos = getMotorEncoder(port2);
 	while (getMotorEncoder(port2) < pos + 327.9968024703564)
@@ -223,7 +223,7 @@ task autonomous()
 			motor[RRRDrive] = 127;
 			motor[RRFDrive] = 127;
 		}
-	}
+	}*/
 	// Move into position to fire a ball, and fire a ball, then move into position
 	// to fire a second ball and fire a second ball
 	AutonomousCodePlaceholderForTesting();
