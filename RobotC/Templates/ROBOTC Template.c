@@ -43,6 +43,17 @@
 /*                                                                           */
 /*---------------------------------------------------------------------------*/
 
+// Get the value of an IME in degrees
+float IMEDegrees( tSensors IME ) {
+	float value = SensorValue[IME];
+	return value / 1.74222222222;
+}
+
+// Convert degrees to counts for an IME
+float IMECounts( float degrees ) {
+	return degrees * 1.74222222222;
+}
+
 /*---------------------------------------------------------------------------*/
 /*                          Pre-Autonomous Functions                         */
 /*                                                                           */

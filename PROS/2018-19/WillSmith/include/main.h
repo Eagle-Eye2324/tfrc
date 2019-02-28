@@ -116,6 +116,18 @@ void initialize();
  */
 void operatorControl();
 
+// Get the value of an IME in degrees
+float IMEDegrees( unsigned char IME ) {
+  signed int value;
+  imeGet(IME, &value);
+  return value / 1.74222222222;
+}
+
+// Convert degrees to counts for an IME
+float IMECounts( float degrees ) {
+	return degrees * 1.74222222222;
+}
+
 // End C++ export structure
 #ifdef __cplusplus
 }

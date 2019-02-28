@@ -34,7 +34,7 @@
 /*                             Sensor Notes                                  */
 /*                                                                           */
 /*	 - Shaft Encoders > 360 counts per revolution (1 count = 1 degree)       */
-/*	 - IMEs > 627.2 counts per revolution (1.74222222222 = 1 degree)         */
+/*	 - IMEs > 627.2 counts per revolution (1.74222222222 counts = 1 degree)  */
 /*                                                                           */
 /*---------------------------------------------------------------------------*/
 
@@ -83,6 +83,17 @@ bool fireBtnPressed = false;
 signed int intakeMode = 0;
 bool intakeBtnPressed = false;
 bool intakeReverseBtnPressed = false;
+
+// Get the value of an IME in degrees
+float IMEDegrees( tSensors IME ) {
+	float value = SensorValue[IME];
+	return value / 1.74222222222;
+}
+
+// Convert degrees to counts for an IME
+float IMECounts( float degrees ) {
+	return degrees * 1.74222222222;
+}
 
 /*---------------------------------------------------------------------------*/
 /*                          Pre-Autonomous Functions                         */
