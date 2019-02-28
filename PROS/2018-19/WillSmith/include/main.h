@@ -33,14 +33,14 @@ extern "C" {
 #endif
 
 // Motor definitons
-#define RM_DRIVE_MOTOR 1
-#define LM_DRIVE_MOTOR 2
-#define LRF_DRIVE_MOTOR 3
-#define RRF_DRIVE_MOTOR 4
-#define LRR_DRIVE_MOTOR 5
-#define RRR_DRIVE_MOTOR 6
-#define BALLISTA_FIRE_MOTOR 7
-#define BALL_INTAKE_MOTOR 8
+#define LM_DRIVE_MOTOR 1 // Drive motor
+#define RM_DRIVE_MOTOR 2 // Drive motor
+#define LRF_DRIVE_MOTOR 3 // Drive motor
+#define RRF_DRIVE_MOTOR 4 // Drive motor
+#define LRR_DRIVE_MOTOR 5 // Drive motor
+#define RRR_DRIVE_MOTOR 6 // Drive motor
+#define BALLISTA_FIRE_MOTOR 7 // Ballista firing motor
+#define BALL_INTAKE_MOTOR 8 // Ball intake motors - 2 via y-cable
 
 // Digital sensor definitions
 #define AUTONOMOUS_MODE_SWITCH 1 // Limit switch

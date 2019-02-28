@@ -40,8 +40,8 @@ void initialize() {
   // Check count to ensure all IMEs are plugged in!
   int IMECount = imeInitializeAll();
   if (IMECount != NUMBER_OF_IME){
-      print("The number of IMEs is incorrect!");
+      printf("The number of IMEs is incorrect!");
   }
-  printf("Main battery: " + powerLevelMain());
-  printf("Backup battery: " + powerLevelBackup());
+  printf("Main battery: %d", powerLevelMain());
+  printf("Backup battery: %d", powerLevelBackup());
 }
