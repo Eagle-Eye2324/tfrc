@@ -42,6 +42,9 @@ void initialize() {
   if (IMECount != NUMBER_OF_IME){
       printf("The number of IMEs is incorrect!");
   }
-  printf("Main battery: %d", powerLevelMain());
-  printf("Backup battery: %d", powerLevelBackup());
+  initJINX(stdout);
+  char main[20] = powerLevelMain();
+  char backup[20] = powerLevelBackup();
+  writeJINXData("Main battery", main);
+  writeJINXData("Backup battery", backup);
 }

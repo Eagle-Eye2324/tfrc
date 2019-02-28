@@ -50,8 +50,8 @@ extern "C" {
 // Quadrature encoder definitions
 
 // IME definitions
-#define IME_RM_DRIVE_MOTOR 0
-#define IME_LM_DRIVE_MOTOR 1
+#define IME_RM_DRIVE_MOTOR 1
+#define IME_LM_DRIVE_MOTOR 0
 #define NUMBER_OF_IME 2
 
 // A function prototype looks exactly like its declaration, but with a semicolon instead of
