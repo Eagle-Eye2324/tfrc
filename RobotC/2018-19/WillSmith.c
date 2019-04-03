@@ -3,11 +3,11 @@
 #pragma config(Sensor, I2C_1,  LeftDrive,      sensorQuadEncoderOnI2CPort,    , AutoAssign )
 #pragma config(Sensor, I2C_2,  RightDrive,     sensorQuadEncoderOnI2CPort,    , AutoAssign )
 #pragma config(Motor,  port1,           LMDrive,       tmotorVex393_HBridge, openLoop, driveLeft, encoderPort, I2C_1)
-#pragma config(Motor,  port2,           RMDrive,       tmotorVex393_MC29, openLoop, driveRight, encoderPort, I2C_2)
-#pragma config(Motor,  port3,           LRFDrive,      tmotorVex393_MC29, openLoop, driveLeft)
+#pragma config(Motor,  port2,           RMDrive,       tmotorVex393_MC29, openLoop, reversed, driveRight, encoderPort, I2C_2)
+#pragma config(Motor,  port3,           LRFDrive,      tmotorVex393_MC29, openLoop, reversed, driveLeft)
 #pragma config(Motor,  port4,           RRFDrive,      tmotorVex393_MC29, openLoop, driveRight)
 #pragma config(Motor,  port5,           LRRDrive,      tmotorVex393_MC29, openLoop, driveLeft)
-#pragma config(Motor,  port6,           RRRDrive,      tmotorVex393_MC29, openLoop, driveRight)
+#pragma config(Motor,  port6,           RRRDrive,      tmotorVex393_MC29, openLoop, reversed, driveRight)
 #pragma config(Motor,  port7,           BallistaFire,  tmotorVex393_MC29, openLoop)
 #pragma config(Motor,  port8,           BallIntake,    tmotorVex393_MC29, openLoop)
 #pragma config(DatalogSeries, 0, "Main Battery Level", Properties, immediateBatteryLevel, , 50)
@@ -35,6 +35,7 @@
 /*                                                                           */
 /*	 - Shaft Encoders > 360 counts per revolution (1 count = 1 degree)       */
 /*	 - IMEs > 627.2 counts per revolution (1.74222222222 counts = 1 degree)  */
+/*                                        (0.57397959183 degrees = 1 count)  */
 /*                                                                           */
 /*---------------------------------------------------------------------------*/
 
@@ -85,15 +86,14 @@ bool intakeBtnPressed = false;
 bool intakeReverseBtnPressed = false;
 
 // Get the value of an IME in degrees
-float IMEDegrees( tSensors IME ) {
-	float value = SensorValue[IME];
-	return value / 1.74222222222;
+signed long IME_counts_to_degrees( signed long counts ) {
+	return counts * 0.57397959183;
 }
 
 // Convert degrees to counts for an IME
-float IMECounts( float degrees ) {
-	return degrees * 1.74222222222;
-}
+//signed long degrees_to_IME_counts( signed long degrees ) {
+//	return degrees * 1.74222222222;
+//}
 
 /*---------------------------------------------------------------------------*/
 /*                          Pre-Autonomous Functions                         */
@@ -127,11 +127,13 @@ void pre_auton()
 /*---------------------------------------------------------------------------*/
 
 task autonomous()
-{/*
-	motor[BallIntake] = 127;
-	float pos = getMotorEncoder(port2);
-	while (getMotorEncoder(port2) < pos + 327.9968024703564)
+{
+	resetMotorEncoder(LMDrive);
+	resetMotorEncoder(RMDrive);
+	signed long pos = IME_counts_to_degrees(nMotorEncoder(RMDrive));
+	while (IME_counts_to_degrees(nMotorEncoder(RMDrive)) < pos + 693.278932228)
 	{
+		motor[BallIntake] = 127;
 		motor[LMDrive] = 127;
 		motor[RMDrive] = 127;
 		motor[LRRDrive] = 127;
@@ -147,8 +149,8 @@ task autonomous()
 	motor[RRFDrive] = 0;
   if (SensorValue[AutonomousModeSwitch] == 1)
   {
-  	pos = getMotorEncoder(port2);
-  	while (getMotorEncoder(port2) < pos + 125.75359521624250763410040501014)
+  	pos = IME_counts_to_degrees(nMotorEncoder(RMDrive));
+  	while (IME_counts_to_degrees(nMotorEncoder(RMDrive)) < pos + 323.437500092)
 		{
 			motor[LMDrive] = -127;
 			motor[RMDrive] = 127;
@@ -157,8 +159,14 @@ task autonomous()
 			motor[RRRDrive] = 127;
 			motor[RRFDrive] = 127;
 		}
-		pos = getMotorEncoder(port1);
-		while (getMotorEncoder(port1) < pos + 418.2489511180865)
+		motor[LMDrive] = 0;
+		motor[RMDrive] = 0;
+		motor[LRRDrive] = 0;
+		motor[LRFDrive] = 0;
+		motor[RRRDrive] = 0;
+		motor[RRFDrive] = 0;
+		pos = IME_counts_to_degrees(getMotorEncoder(port1));
+		while (IME_counts_to_degrees(getMotorEncoder(port1)) < pos + 1375.0987087)
 		{
 			motor[LMDrive] = 127;
 			motor[RMDrive] = 127;
@@ -169,31 +177,11 @@ task autonomous()
 		}
 		sleep(1000);
 		motor[BallIntake] = 0;
-		pos = getMotorEncoder(port2);
-		while (getMotorEncoder(port2) > pos - 418.2489511180865)
-		{
-			motor[LMDrive] = -127;
-			motor[RMDrive] = -127;
-			motor[LRRDrive] = -127;
-			motor[LRFDrive] = -127;
-			motor[RRRDrive] = -127;
-			motor[RRFDrive] = -127;
-		}
-		pos = getMotorEncoder(port1);
-  	while (getMotorEncoder(port1) > pos - 125.75359521624250763410040501014)
-		{
-			motor[LMDrive] = 127;
-			motor[RMDrive] = -127;
-			motor[LRRDrive] = 127;
-			motor[LRFDrive] = 127;
-			motor[RRRDrive] = -127;
-			motor[RRFDrive] = -127;
-		}
   }
   else
   {
-		pos = getMotorEncoder(port2);
-  	while (getMotorEncoder(port2) > pos - 125.75359521624250763410040501014)
+		pos = IME_counts_to_degrees(nMotorEncoder(LMDrive));
+  	while (IME_counts_to_degrees(nMotorEncoder(LMDrive)) < pos + 323.437500092)
 		{
 			motor[LMDrive] = 127;
 			motor[RMDrive] = -127;
@@ -202,8 +190,8 @@ task autonomous()
 			motor[RRRDrive] = -127;
 			motor[RRFDrive] = -127;
 		}
-		pos = getMotorEncoder(port1);
-		while (getMotorEncoder(port1) < pos + 418.2489511180865)
+		pos = IME_counts_to_degrees(nMotorEncoder(LMDrive));
+		while (IME_counts_to_degrees(nMotorEncoder(LMDrive)) < pos + 257.831007882)
 		{
 			motor[LMDrive] = 127;
 			motor[RMDrive] = 127;
@@ -214,8 +202,8 @@ task autonomous()
 		}
 		sleep(1000);
 		motor[BallIntake] = 0;
-		pos = getMotorEncoder(port2);
-		while (getMotorEncoder(port2) > pos - 418.2489511180865)
+		pos = IME_counts_to_degrees(nMotorEncoder(RMDrive));
+		while (IME_counts_to_degrees(nMotorEncoder(RMDrive)) > pos - 257.831007882)
 		{
 			motor[LMDrive] = -127;
 			motor[RMDrive] = -127;
@@ -224,8 +212,8 @@ task autonomous()
 			motor[RRRDrive] = -127;
 			motor[RRFDrive] = -127;
 		}
-		pos = getMotorEncoder(port1);
-  	while (getMotorEncoder(port1) < pos + 125.75359521624250763410040501014)
+		pos = IME_counts_to_degrees(nMotorEncoder(LMDrive));
+  	while (getMotorEncoder(port1) > pos - 646.875000184)
 		{
 			motor[LMDrive] = -127;
 			motor[RMDrive] = 127;
@@ -234,10 +222,9 @@ task autonomous()
 			motor[RRRDrive] = 127;
 			motor[RRFDrive] = 127;
 		}
-	}*/
+	}
 	// Move into position to fire a ball, and fire a ball, then move into position
 	// to fire a second ball and fire a second ball
-	AutonomousCodePlaceholderForTesting();
 }
 
 /*---------------------------------------------------------------------------*/
