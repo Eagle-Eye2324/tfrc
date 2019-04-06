@@ -85,15 +85,15 @@ signed int intakeMode = 0;
 bool intakeBtnPressed = false;
 bool intakeReverseBtnPressed = false;
 
-// Get the value of an IME in degrees
+// Convert the value of an IME to degrees
 signed long IME_counts_to_degrees( signed long counts ) {
 	return counts * 0.57397959183;
 }
 
 // Convert degrees to counts for an IME
-//signed long degrees_to_IME_counts( signed long degrees ) {
-//	return degrees * 1.74222222222;
-//}
+signed long degrees_to_IME_counts( signed long degrees ) {
+	return degrees * 1.74222222222;
+}
 
 /*---------------------------------------------------------------------------*/
 /*                          Pre-Autonomous Functions                         */
@@ -130,10 +130,10 @@ task autonomous()
 {
 	resetMotorEncoder(LMDrive);
 	resetMotorEncoder(RMDrive);
+	motor[BallIntake] = 127;
 	signed long pos = IME_counts_to_degrees(nMotorEncoder(RMDrive));
 	while (IME_counts_to_degrees(nMotorEncoder(RMDrive)) < pos + 693.278932228)
 	{
-		motor[BallIntake] = 127;
 		motor[LMDrive] = 127;
 		motor[RMDrive] = 127;
 		motor[LRRDrive] = 127;
@@ -159,12 +159,6 @@ task autonomous()
 			motor[RRRDrive] = 127;
 			motor[RRFDrive] = 127;
 		}
-		motor[LMDrive] = 0;
-		motor[RMDrive] = 0;
-		motor[LRRDrive] = 0;
-		motor[LRFDrive] = 0;
-		motor[RRRDrive] = 0;
-		motor[RRFDrive] = 0;
 		pos = IME_counts_to_degrees(getMotorEncoder(port1));
 		while (IME_counts_to_degrees(getMotorEncoder(port1)) < pos + 1375.0987087)
 		{
@@ -175,7 +169,6 @@ task autonomous()
 			motor[RRRDrive] = 127;
 			motor[RRFDrive] = 127;
 		}
-		sleep(1000);
 		motor[BallIntake] = 0;
   }
   else
@@ -200,7 +193,6 @@ task autonomous()
 			motor[RRRDrive] = 127;
 			motor[RRFDrive] = 127;
 		}
-		sleep(1000);
 		motor[BallIntake] = 0;
 		pos = IME_counts_to_degrees(nMotorEncoder(RMDrive));
 		while (IME_counts_to_degrees(nMotorEncoder(RMDrive)) > pos - 257.831007882)
@@ -223,6 +215,12 @@ task autonomous()
 			motor[RRFDrive] = 127;
 		}
 	}
+	motor[LMDrive] = 0;
+	motor[RMDrive] = 0;
+	motor[LRRDrive] = 0;
+	motor[LRFDrive] = 0;
+	motor[RRRDrive] = 0;
+	motor[RRFDrive] = 0;
 	// Move into position to fire a ball, and fire a ball, then move into position
 	// to fire a second ball and fire a second ball
 }

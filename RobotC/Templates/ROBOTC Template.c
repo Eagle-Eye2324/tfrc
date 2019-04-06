@@ -18,7 +18,20 @@
 /*                             Sensor Notes                                  */
 /*                                                                           */
 /*	 - Shaft Encoders > 360 counts per revolution (1 count = 1 degree)       */
-/*	 - IMEs > 627.2 counts per revolution (1.74222222222 = 1 degree)         */
+/*	 - IMEs > 627.2 counts per revolution (1.74222222222 counts = 1 degree)  */
+/*                                        (0.57397959183 degrees = 1 count)  */
+/*                                                                           */
+/*---------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------*/
+/*                                                                           */
+/*                             Motor Names                                   */
+/*                                                                           */
+/*	Drive Motors                                                             */
+/*                                                                           */
+/*                                                                           */
+/*	Other Motors                                                             */
+/*                                                                           */
 /*                                                                           */
 /*---------------------------------------------------------------------------*/
 
@@ -43,14 +56,13 @@
 /*                                                                           */
 /*---------------------------------------------------------------------------*/
 
-// Get the value of an IME in degrees
-float IMEDegrees( tSensors IME ) {
-	float value = SensorValue[IME];
-	return value / 1.74222222222;
+// Convert the value of an IME from counts to degrees
+signed long IME_counts_to_degrees( signed long counts ) {
+	return counts * 0.57397959183;
 }
 
 // Convert degrees to counts for an IME
-float IMECounts( float degrees ) {
+signed long degrees_to_IME_counts( signed long degrees ) {
 	return degrees * 1.74222222222;
 }
 
