@@ -81,11 +81,14 @@
 /*                                                                           */
 /*---------------------------------------------------------------------------*/
 
+// Ballista fire control
 bool firing = false;
 bool fireBtnPressed = false;
+// Intake control
 signed int intakeMode = 0;
 bool intakeBtnPressed = false;
 bool intakeReverseBtnPressed = false;
+// Ballista aiming control - Not in use
 bool aimBtnPressed = false;
 int aimPosition = 1;
 
@@ -132,9 +135,14 @@ void pre_auton()
 
 task autonomous()
 {
+	// Resset the motor encoders
 	resetMotorEncoder(LMDrive);
 	resetMotorEncoder(RMDrive);
+
+	// Start the ball intake
 	motor[BallIntake] = 127;
+
+	// Move forward to line up with the edge of the podium
 	signed long pos = IME_counts_to_degrees(nMotorEncoder(RMDrive));
 	while (IME_counts_to_degrees(nMotorEncoder(RMDrive)) < pos + 693.278932228)
 	{
@@ -145,14 +153,20 @@ task autonomous()
 		motor[RRRDrive] = 127;
 		motor[RRFDrive] = 127;
 	}
+
+	// Stop
 	motor[LMDrive] = 0;
 	motor[RMDrive] = 0;
 	motor[LRRDrive] = 0;
 	motor[LRFDrive] = 0;
 	motor[RRRDrive] = 0;
 	motor[RRFDrive] = 0;
+
+	// If in front of the podium on the left side or behind the podium on the right side
   if (SensorValue[AutonomousModeSwitch] == 1)
   {
+
+  	// Turn left 90 degrees
   	pos = IME_counts_to_degrees(nMotorEncoder(RMDrive));
   	while (IME_counts_to_degrees(nMotorEncoder(RMDrive)) < pos + 323.437500092)
 		{
@@ -163,6 +177,8 @@ task autonomous()
 			motor[RRRDrive] = 127;
 			motor[RRFDrive] = 127;
 		}
+
+		// Move across the podium
 		pos = IME_counts_to_degrees(getMotorEncoder(port1));
 		while (IME_counts_to_degrees(getMotorEncoder(port1)) < pos + 1375.0987087)
 		{
@@ -173,10 +189,14 @@ task autonomous()
 			motor[RRRDrive] = 127;
 			motor[RRFDrive] = 127;
 		}
+
+		// Stop the ball intake
 		motor[BallIntake] = 0;
   }
+  // If in front of the podium on the right side or behind the podium on the left side
   else
   {
+  	// Turn right 90 degrees
 		pos = IME_counts_to_degrees(nMotorEncoder(LMDrive));
   	while (IME_counts_to_degrees(nMotorEncoder(LMDrive)) < pos + 323.437500092)
 		{
@@ -187,6 +207,8 @@ task autonomous()
 			motor[RRRDrive] = -127;
 			motor[RRFDrive] = -127;
 		}
+
+		// Move forward and pick up one ball from the podium
 		pos = IME_counts_to_degrees(nMotorEncoder(LMDrive));
 		while (IME_counts_to_degrees(nMotorEncoder(LMDrive)) < pos + 257.831007882)
 		{
@@ -197,7 +219,11 @@ task autonomous()
 			motor[RRRDrive] = 127;
 			motor[RRFDrive] = 127;
 		}
+
+		// Stop the ball intake
 		motor[BallIntake] = 0;
+
+		// Reverse off the podium.
 		pos = IME_counts_to_degrees(nMotorEncoder(RMDrive));
 		while (IME_counts_to_degrees(nMotorEncoder(RMDrive)) > pos - 257.831007882)
 		{
@@ -208,6 +234,8 @@ task autonomous()
 			motor[RRRDrive] = -127;
 			motor[RRFDrive] = -127;
 		}
+
+		// Turn left 180 degrees
 		pos = IME_counts_to_degrees(nMotorEncoder(LMDrive));
   	while (getMotorEncoder(port1) > pos - 646.875000184)
 		{
@@ -219,6 +247,8 @@ task autonomous()
 			motor[RRFDrive] = 127;
 		}
 	}
+
+	// Stop
 	motor[LMDrive] = 0;
 	motor[RMDrive] = 0;
 	motor[LRRDrive] = 0;
