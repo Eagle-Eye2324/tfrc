@@ -42,8 +42,23 @@ void pre_auton(void) {
   // Initializing Robot Configuration. DO NOT REMOVE!
   vexcodeInit();
 
-  // All activities that occur before the competition starts
-  // Example: clearing encoders, setting servo positions, ...
+  LRDrive.resetRotation();
+  LFDrive.resetRotation();
+  RFDrive.resetRotation();
+  RRDrive.resetRotation();
+  
+  Brain.Screen.clearLine();
+  // check what method of match control if any is being used
+  if (Competition.isCompetitionSwitch()) {
+      // connected to a competition switch
+      Brain.Screen.print("Connected to a competition switch");
+  } else if (Competition.isFieldControl()) {
+      // connected to a field control system
+      Brain.Screen.print("Connected to a field control system");
+  } else {
+      // not connected to any control system
+      Brain.Screen.print("not connected to a control system");
+  }
 }
 
 /*---------------------------------------------------------------------------*/
@@ -60,6 +75,18 @@ void autonomous(void) {
   // ..........................................................................
   // Insert autonomous user code here.
   // ..........................................................................
+  // clear the screen in order to print the capacity and temperature
+  Brain.Screen.clearScreen();
+  // display the current battery capacity in percent
+  Brain.Screen.setCursor(1, 20);
+  Brain.Screen.print("Brain Battery Capacity: %d%%", Brain.Battery.capacity());
+  // display the current battery temperature in percent
+  Brain.Screen.setCursor(1, 40);
+  Brain.Screen.print("Brain Battery Temperature: %d%%", Brain.Battery.temperature());
+  
+  Controller1.Screen.clearScreen();
+  Controller1.Screen.setCursor(1, 20);
+  Controller1.Screen.print("Brain Battery Capacity: %d%%", Brain.Battery.capacity());
 }
 
 /*---------------------------------------------------------------------------*/
@@ -78,6 +105,10 @@ void usercontrol(void) {
     // This is the main execution loop for the user control program.
     // Each time through the loop your program should update motor + servo
     // values based on feedback from the joysticks.
+
+    Controller1.Screen.clearScreen();
+    Controller1.Screen.setCursor(1, 20);
+    Controller1.Screen.print("Brain Battery Capacity: %d%%", Brain.Battery.capacity());
 
     RFDrive.spin(directionType::fwd, Controller1.Axis2.position(), percentUnits::pct);
     RRDrive.spin(directionType::fwd, Controller1.Axis2.position(), percentUnits::pct);
