@@ -7,7 +7,16 @@
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
 
+// :: means it's an enum
+
 // ---- START VEXCODE CONFIGURED DEVICES ----
+// Robot Configuration:
+// [Name]               [Type]        [Port(s)]
+// LRDrive              motor         1               
+// RRDrive              motor         10              
+// LFDrive              motor         11              
+// RFDrive              motor         20              
+// Controller1          controller                    
 // ---- END VEXCODE CONFIGURED DEVICES ----
 
 #include "vex.h"
@@ -70,10 +79,10 @@ void usercontrol(void) {
     // Each time through the loop your program should update motor + servo
     // values based on feedback from the joysticks.
 
-    // ........................................................................
-    // Insert user code here. This is where you use the joystick values to
-    // update your motors, etc.
-    // ........................................................................
+    RFDrive.spin(directionType::fwd, Controller1.Axis2.position(), percentUnits::pct);
+    RRDrive.spin(directionType::fwd, Controller1.Axis2.position(), percentUnits::pct);
+    LFDrive.spin(directionType::fwd, Controller1.Axis3.position(), percentUnits::pct);
+    LRDrive.spin(directionType::fwd, Controller1.Axis3.position(), percentUnits::pct);
 
     wait(20, msec); // Sleep the task for a short amount of time to
                     // prevent wasted resources.
