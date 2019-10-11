@@ -8,9 +8,9 @@ using code = vision::code;
 brain  Brain;
 
 // VEXcode device constructors
-motor LRDrive = motor(PORT1, ratio18_1, false);
+motor LRDrive = motor(PORT1, ratio18_1, true);
 motor RRDrive = motor(PORT10, ratio18_1, false);
-motor LFDrive = motor(PORT11, ratio18_1, false);
+motor LFDrive = motor(PORT11, ratio18_1, true);
 motor RFDrive = motor(PORT20, ratio18_1, false);
 controller Controller1 = controller(primary);
 

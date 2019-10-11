@@ -110,10 +110,12 @@ void usercontrol(void) {
     Controller1.Screen.setCursor(1, 20);
     Controller1.Screen.print("Brain Battery Capacity: %d%%", Brain.Battery.capacity());
 
-    RFDrive.spin(directionType::fwd, Controller1.Axis2.position(), percentUnits::pct);
-    RRDrive.spin(directionType::fwd, Controller1.Axis2.position(), percentUnits::pct);
-    LFDrive.spin(directionType::fwd, Controller1.Axis3.position(), percentUnits::pct);
-    LRDrive.spin(directionType::fwd, Controller1.Axis3.position(), percentUnits::pct);
+    RFDrive.spin(directionType::fwd, Controller1.Axis3.position(), percentUnits::pct);
+    RRDrive.spin(directionType::fwd, Controller1.Axis3.position(), percentUnits::pct);
+    LFDrive.spin(directionType::fwd, Controller1.Axis2.position(), percentUnits::pct);
+    LRDrive.spin(directionType::fwd, Controller1.Axis2.position(), percentUnits::pct);
+
+    
 
     wait(20, msec); // Sleep the task for a short amount of time to
                     // prevent wasted resources.
