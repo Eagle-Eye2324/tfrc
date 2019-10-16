@@ -13,6 +13,11 @@ motor RRDrive = motor(PORT10, ratio18_1, false);
 motor LFDrive = motor(PORT11, ratio18_1, true);
 motor RFDrive = motor(PORT20, ratio18_1, false);
 controller Controller1 = controller(primary);
+motor armExtMotor = motor(PORT4, ratio18_1, true);
+motor armUpMotor1 = motor(PORT3, ratio18_1, false);
+motor clawMotor = motor(PORT15, ratio18_1, false);
+motor armUpMotor2 = motor(PORT5, ratio18_1, false);
+controller Controller2 = controller(partner);
 
 // VEXcode generated functions
 
