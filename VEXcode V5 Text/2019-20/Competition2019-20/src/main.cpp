@@ -53,11 +53,16 @@ void pre_auton(void) {
   // Initializing Robot Configuration. DO NOT REMOVE!
   vexcodeInit();
 
+  // Reset all encoders
   LRDrive.resetRotation();
   LFDrive.resetRotation();
   RFDrive.resetRotation();
   RRDrive.resetRotation();
-  
+  armExtMotor.resetRotation();
+  armUpMotor1.resetRotation();
+  armUpMotor2.resetRotation();
+  clawMotor.resetRotation();
+
   Brain.Screen.clearLine();
   // check what method of match control if any is being used
   if (Competition.isCompetitionSwitch()) {
@@ -99,6 +104,7 @@ void autonomous(void) {
   Brain.Screen.setCursor(1, 40);
   Brain.Screen.print("Brain Battery Temperature: %d%%", Brain.Battery.temperature());
   
+  // Print the battery capacity to the controller screen
   Controller1.Screen.clearScreen();
   Controller1.Screen.setCursor(1, 20);
   Controller1.Screen.print("Brain Battery Capacity: %d%%", Brain.Battery.capacity());
@@ -246,6 +252,7 @@ void usercontrol(void) {
     /*---------------------------------------------------------------------------*/
     /*                                Claw control                               */
     /*---------------------------------------------------------------------------*/
+
     // controller 1
     if (Controller1.ButtonA.pressing() == true)
   	{
