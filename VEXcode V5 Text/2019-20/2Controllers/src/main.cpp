@@ -141,7 +141,7 @@ void usercontrol(void) {
     /*                           Arm extenstion control                          */
     /*---------------------------------------------------------------------------*/
 
-    // controller 1
+    /*// controller 1
     if (Controller1.ButtonL1.pressing() == true||Controller1.ButtonL2.pressing() == true)
   	{
   		armExtPressed = true;
@@ -174,10 +174,10 @@ void usercontrol(void) {
     if (armExtPressed == false)
     {
       armExtMotor.stop();
-    }
+    }*/
 
     // controller 2
-    /*if (Controller2.Axis3.value() != 0)
+    if (Controller2.Axis3.value() != 0)
     {
       if (armExtMotor.position(degrees) >= 0 && Controller2.Axis3.value() < 0)
       {
@@ -193,14 +193,14 @@ void usercontrol(void) {
       }
     } else {
       armExtMotor.stop();
-    }*/
+    }
 
 
     /*---------------------------------------------------------------------------*/
     /*                           Arm elevation control                           */
     /*---------------------------------------------------------------------------*/
 
-    // controller 1
+    /*// controller 1
     if (Controller1.ButtonR1.pressing() == true||Controller1.ButtonR2.pressing() == true)
   	{
   		armUpPressed = true;
@@ -231,10 +231,10 @@ void usercontrol(void) {
       armUpMotor2.setVelocity(10, percent);
       armUpMotor1.spin(forward);
       armUpMotor2.spin(forward);
-    }
+    }*/
 
     // controller 2
-    /*if (Controller2.Axis2.value() != 0)
+    if (Controller2.Axis2.value() != 0)
     {
       if (armUpMotor1.position(degrees) >= 0 && Controller2.Axis2.value() < 0)
       {
@@ -252,14 +252,14 @@ void usercontrol(void) {
         armUpMotor1.stop();
         armUpMotor2.stop();
       }
-    }*/
+    }
 
 
     /*---------------------------------------------------------------------------*/
     /*                                Claw control                               */
     /*---------------------------------------------------------------------------*/
 
-    // controller 1
+    /*// controller 1
     if (Controller1.ButtonA.pressing() == true)
   	{
   		clawBtnPressed = true;
@@ -277,10 +277,10 @@ void usercontrol(void) {
   			clawMotor.spinToPosition(81, degrees);
   			clawOpen = true;
   		}
-  	}
+  	}*/
 
     // controller 2
-    /*if (Controller2.ButtonL1.pressing() || Controller1.ButtonR1.pressing())
+    if (Controller2.ButtonL1.pressing() || Controller1.ButtonR1.pressing())
   	{
   		clawBtnPressed = true;
   	}
@@ -297,7 +297,7 @@ void usercontrol(void) {
   			clawMotor.spinToPosition(81, degrees);
   			clawOpen = true;
   		}
-  	}*/
+  	}
 
 
     wait(20, msec); // Sleep the task for a short amount of time to
