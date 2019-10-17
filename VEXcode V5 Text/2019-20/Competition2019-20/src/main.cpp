@@ -19,7 +19,7 @@
 // Controller1          controller                    
 // armExtMotor          motor         4               
 // armUpMotor1          motor         3               
-// clawMotor            motor         15              
+// clawMotor            motor         9               
 // armUpMotor2          motor         5               
 // Controller2          controller                    
 // ---- END VEXCODE CONFIGURED DEVICES ----
@@ -152,7 +152,7 @@ void usercontrol(void) {
   	{
   		if (Controller1.ButtonL1.pressing() == true)
       {
-        if (armExtMotor.position(degrees) >= 360)
+        if (armExtMotor.position(degrees) >= 570)
         {
           armExtMotor.stop();
         } else {
@@ -163,11 +163,11 @@ void usercontrol(void) {
         if (Controller1.ButtonL2.pressing() == true)
         {
           if (armExtMotor.position(degrees) <= 0)
-        {
-          armExtMotor.stop();
-        } else {
-          armExtMotor.spin(reverse);
-        }
+          {
+            armExtMotor.stop();
+          } else {
+            armExtMotor.spin(reverse);
+          }
         }
       }
   	}
@@ -211,10 +211,18 @@ void usercontrol(void) {
   	{
   		if (Controller1.ButtonR1.pressing() == true)
       {
-        armUpMotor1.setVelocity(50, percent);
-        armUpMotor2.setVelocity(50, percent);
-        armUpMotor1.spin(forward);
-        armUpMotor2.spin(forward);
+        if (armUpMotor1.position(degrees) <= 300)
+        {
+          armUpMotor1.setVelocity(50, percent);
+          armUpMotor2.setVelocity(50, percent);
+          armUpMotor1.spin(forward);
+          armUpMotor2.spin(forward);
+        } else {
+          armUpMotor1.setVelocity(1, percent);
+          armUpMotor2.setVelocity(1, percent);
+          armUpMotor1.spin(forward);
+          armUpMotor2.spin(forward);
+        }
       } else {
         if (Controller1.ButtonR2.pressing() == true)
         {
@@ -227,8 +235,8 @@ void usercontrol(void) {
   	}
     if (armUpPressed == false)
     {
-      armUpMotor1.setVelocity(10, percent);
-      armUpMotor2.setVelocity(10, percent);
+      armUpMotor1.setVelocity(1, percent);
+      armUpMotor2.setVelocity(1, percent);
       armUpMotor1.spin(forward);
       armUpMotor2.spin(forward);
     }
@@ -269,12 +277,12 @@ void usercontrol(void) {
   		clawBtnPressed = false;
   		if (clawOpen == true)
   		{
-        clawMotor.spinToPosition(40.5, degrees);
+        clawMotor.spinToPosition(80, degrees);
   			clawOpen = false;
   		}
   		else
   		{
-  			clawMotor.spinToPosition(81, degrees);
+  			clawMotor.spinToPosition(180, degrees);
   			clawOpen = true;
   		}
   	}
