@@ -16,15 +16,16 @@
 // RRDrive              motor         10              
 // LFDrive              motor         11              
 // RFDrive              motor         20              
-// Controller1          controller                    
 // armExtMotor          motor         4               
 // armUpMotor1          motor         3               
-// clawMotor            motor         9               
 // armUpMotor2          motor         5               
+// clawMotor            motor         9                              
 // Controller2          controller                    
+// Controller1          controller                    
 // ---- END VEXCODE CONFIGURED DEVICES ----
 
 #include "vex.h"
+#include <stdio.h>
 
 using namespace vex;
 
@@ -79,6 +80,11 @@ void pre_auton(void) {
   armExtMotor.setVelocity(50, percent);
   armUpMotor1.setVelocity(50, percent);
   armUpMotor2.setVelocity(50, percent);
+  armUpMotor1.setBrake(brakeType::hold);
+  armUpMotor2.setBrake(brakeType::hold);
+  armUpMotor1.setStopping(brakeType::hold);
+  armUpMotor2.setStopping(brakeType::hold);
+  clawMotor.setStopping(brakeType::hold);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -98,16 +104,35 @@ void autonomous(void) {
   // clear the screen in order to print the capacity and temperature
   Brain.Screen.clearScreen();
   // display the current battery capacity in percent
-  Brain.Screen.setCursor(1, 20);
-  Brain.Screen.print("Brain Battery Capacity: %d%%", Brain.Battery.capacity());
+  Brain.Screen.setCursor(1, 1);
+  Brain.Screen.print("Brain Battery: %d%%", Brain.Battery.capacity());
   // display the current battery temperature in percent
-  Brain.Screen.setCursor(1, 40);
-  Brain.Screen.print("Brain Battery Temperature: %d%%", Brain.Battery.temperature());
+  Brain.Screen.setCursor(2, 1);
+  Brain.Screen.print("Brain Battery Temperature: %d%%", Brain.Battery.temperature(temperatureUnits::celsius));
   
   // Print the battery capacity to the controller screen
   Controller1.Screen.clearScreen();
-  Controller1.Screen.setCursor(1, 20);
-  Controller1.Screen.print("Brain Battery Capacity: %d%%", Brain.Battery.capacity());
+  Controller1.Screen.setCursor(1, 1);
+  Controller1.Screen.print("Brain Battery: %d%%", Brain.Battery.capacity());
+
+  //  print all the stuff to the computer
+  printf("Brain Battery Capacity: %lu%%", Brain.Battery.capacity());
+  printf("Brain Battery Temperature: %f%%", Brain.Battery.temperature(temperatureUnits::celsius));
+
+  RFDrive.spin(forward, 100, percent);
+  LFDrive.spin(forward, 100, percent);
+  RRDrive.spin(forward, 100, percent);
+  LRDrive.spin(forward, 100, percent);
+  waitUntil(RFDrive.position(degrees) >= 401);
+  RFDrive.spin(reverse, 100, percent);
+  LFDrive.spin(reverse, 100, percent);
+  RRDrive.spin(reverse, 100, percent);
+  LRDrive.spin(reverse, 100, percent);
+  waitUntil(RFDrive.position(degrees) <= 0);
+  RFDrive.stop();
+  LFDrive.stop();
+  RRDrive.stop();
+  LRDrive.stop();
 }
 
 /*---------------------------------------------------------------------------*/
@@ -127,21 +152,27 @@ void usercontrol(void) {
     // Each time through the loop your program should update motor + servo
     // values based on feedback from the joysticks.
 
+    // Diagnostic stuff
     Controller1.Screen.clearScreen();
-    Controller1.Screen.setCursor(1, 20);
-    Controller1.Screen.print("Brain Battery Capacity: %d%%", Brain.Battery.capacity());
+    Controller1.Screen.setCursor(1, 1);
+    Controller1.Screen.print("Brain Battery: %d%%", Brain.Battery.capacity());
 
-    RFDrive.spin(directionType::fwd, Controller1.Axis3.position(), percentUnits::pct);
-    RRDrive.spin(directionType::fwd, Controller1.Axis3.position(), percentUnits::pct);
-    LFDrive.spin(directionType::fwd, Controller1.Axis2.position(), percentUnits::pct);
-    LRDrive.spin(directionType::fwd, Controller1.Axis2.position(), percentUnits::pct);
+    /*=============================User control start============================*/
+
+    /*---------------------------------------------------------------------------*/
+    /*                             Drive motor control                           */
+    /*---------------------------------------------------------------------------*/
+
+    RFDrive.spin(directionType::fwd, Controller1.Axis3.position()/2, percentUnits::pct);
+    RRDrive.spin(directionType::fwd, Controller1.Axis3.position()/2, percentUnits::pct);
+    LFDrive.spin(directionType::fwd, Controller1.Axis2.position()/2, percentUnits::pct);
+    LRDrive.spin(directionType::fwd, Controller1.Axis2.position()/2, percentUnits::pct);
 
 
     /*---------------------------------------------------------------------------*/
     /*                           Arm extenstion control                          */
     /*---------------------------------------------------------------------------*/
 
-    // controller 1
     if (Controller1.ButtonL1.pressing() == true||Controller1.ButtonL2.pressing() == true)
   	{
   		armExtPressed = true;
@@ -176,31 +207,11 @@ void usercontrol(void) {
       armExtMotor.stop();
     }
 
-    // controller 2
-    /*if (Controller2.Axis3.value() != 0)
-    {
-      if (armExtMotor.position(degrees) >= 0 && Controller2.Axis3.value() < 0)
-      {
-        armExtMotor.spin(forward, Controller2.Axis3.value(), percent);
-      } else {
-        armExtMotor.stop();
-      }
-      if (armExtMotor.position(degrees) <= 360 && Controller2.Axis3.value() > 0)
-      {
-        armExtMotor.spin(forward, Controller2.Axis3.value(), percent);
-      } else {
-        armExtMotor.stop();
-      }
-    } else {
-      armExtMotor.stop();
-    }*/
-
 
     /*---------------------------------------------------------------------------*/
     /*                           Arm elevation control                           */
     /*---------------------------------------------------------------------------*/
 
-    // controller 1
     if (Controller1.ButtonR1.pressing() == true||Controller1.ButtonR2.pressing() == true)
   	{
   		armUpPressed = true;
@@ -211,17 +222,33 @@ void usercontrol(void) {
   	{
   		if (Controller1.ButtonR1.pressing() == true)
       {
-        if (armUpMotor1.position(degrees) <= 300)
+        if (armExtMotor.position(degrees) >= 70)
         {
-          armUpMotor1.setVelocity(50, percent);
-          armUpMotor2.setVelocity(50, percent);
-          armUpMotor1.spin(forward);
-          armUpMotor2.spin(forward);
+          if (armUpMotor1.position(degrees) <= 500)
+          {
+            armUpMotor1.setVelocity(50, percent);
+            armUpMotor2.setVelocity(50, percent);
+            armUpMotor1.spin(forward);
+            armUpMotor2.spin(forward);
+          } else {
+            armUpMotor1.setVelocity(1, percent);
+            armUpMotor2.setVelocity(1, percent);
+            armUpMotor1.spin(forward);
+            armUpMotor2.spin(forward);
+          }
         } else {
-          armUpMotor1.setVelocity(1, percent);
-          armUpMotor2.setVelocity(1, percent);
-          armUpMotor1.spin(forward);
-          armUpMotor2.spin(forward);
+          if (armUpMotor1.position(degrees) <= 300)
+          {
+            armUpMotor1.setVelocity(50, percent);
+            armUpMotor2.setVelocity(50, percent);
+            armUpMotor1.spin(forward);
+            armUpMotor2.spin(forward);
+          } else {
+            armUpMotor1.setVelocity(1, percent);
+            armUpMotor2.setVelocity(1, percent);
+            armUpMotor1.spin(forward);
+            armUpMotor2.spin(forward);
+          }
         }
       } else {
         if (Controller1.ButtonR2.pressing() == true)
@@ -235,39 +262,14 @@ void usercontrol(void) {
   	}
     if (armUpPressed == false)
     {
-      armUpMotor1.setVelocity(1, percent);
-      armUpMotor2.setVelocity(1, percent);
-      armUpMotor1.spin(forward);
-      armUpMotor2.spin(forward);
+      armUpMotor1.stop();
+      armUpMotor2.stop();
     }
-
-    // controller 2
-    /*if (Controller2.Axis2.value() != 0)
-    {
-      if (armUpMotor1.position(degrees) >= 0 && Controller2.Axis2.value() < 0)
-      {
-        armUpMotor1.spin(forward, Controller2.Axis2.value(), percent);
-        armUpMotor2.spin(forward, Controller2.Axis2.value(), percent);
-      } else {
-        armUpMotor1.stop();
-        armUpMotor2.stop();
-      }
-      if (armUpMotor1.position(degrees) <= 315 && Controller2.Axis2.value() > 0)
-      {
-        armUpMotor1.spin(forward, Controller2.Axis2.value(), percent);
-        armUpMotor2.spin(forward, Controller2.Axis2.value(), percent);
-      } else {
-        armUpMotor1.stop();
-        armUpMotor2.stop();
-      }
-    }*/
-
 
     /*---------------------------------------------------------------------------*/
     /*                                Claw control                               */
     /*---------------------------------------------------------------------------*/
 
-    // controller 1
     if (Controller1.ButtonA.pressing() == true)
   	{
   		clawBtnPressed = true;
@@ -277,7 +279,9 @@ void usercontrol(void) {
   		clawBtnPressed = false;
   		if (clawOpen == true)
   		{
-        clawMotor.spinToPosition(80, degrees);
+        clawMotor.spin(reverse, 100, percent);
+        wait(0.25, seconds);
+        clawMotor.stop();
   			clawOpen = false;
   		}
   		else
@@ -287,26 +291,28 @@ void usercontrol(void) {
   		}
   	}
 
-    // controller 2
-    /*if (Controller2.ButtonL1.pressing() || Controller1.ButtonR1.pressing())
-  	{
-  		clawBtnPressed = true;
-  	}
-  	if (((Controller1.ButtonR1.pressing() || Controller1.ButtonL1.pressing()) == false) && clawBtnPressed == true)
-  	{
-  		clawBtnPressed = false;
-  		if (clawOpen == true)
-  		{
-        clawMotor.spinToPosition(40.5, degrees);
-  			clawOpen = false;
-  		}
-  		else
-  		{
-  			clawMotor.spinToPosition(81, degrees);
-  			clawOpen = true;
-  		}
-  	}*/
+    if (Controller1.ButtonRight.pressing() || Controller1.ButtonLeft.pressing())
+    {
+      clawMotor.resetRotation();
+      if (Controller1.ButtonRight.pressing())
+      {
+        clawMotor.spin(forward, 50, percent);
+      }
+      if (Controller1.ButtonLeft.pressing())
+      {
+        clawMotor.spin(reverse, 50, percent);
+      }
+    }
+    if (!(Controller1.ButtonRight.pressing() || Controller1.ButtonLeft.pressing()) && clawBtnPressed == false)
+    {
+      clawMotor.stop();
+    }
 
+    if (Controller1.ButtonY.pressing())
+    {
+      clawMotor.resetRotation();
+    }
+    /*==============================User control end=============================*/
 
     wait(20, msec); // Sleep the task for a short amount of time to
                     // prevent wasted resources.
