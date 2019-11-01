@@ -69,12 +69,15 @@ void pre_auton(void) {
   if (Competition.isCompetitionSwitch()) {
       // connected to a competition switch
       Brain.Screen.print("Connected to a competition switch");
+      printf("Connected to a competition switch");
   } else if (Competition.isFieldControl()) {
       // connected to a field control system
       Brain.Screen.print("Connected to a field control system");
+      printf("Connected to a field control system");
   } else {
       // not connected to any control system
       Brain.Screen.print("not connected to a control system");
+      printf("Not connected to a control system");
   }
 
   armExtMotor.setVelocity(50, percent);
@@ -156,6 +159,8 @@ void usercontrol(void) {
     Controller1.Screen.clearScreen();
     Controller1.Screen.setCursor(1, 1);
     Controller1.Screen.print("Brain Battery: %d%%", Brain.Battery.capacity());
+    printf("Brain Battery Capacity: %lu%%", Brain.Battery.capacity());
+    printf("Brain Battery Temperature: %f%%", Brain.Battery.temperature(temperatureUnits::celsius));
 
     /*=============================User control start============================*/
 
@@ -163,10 +168,10 @@ void usercontrol(void) {
     /*                             Drive motor control                           */
     /*---------------------------------------------------------------------------*/
 
-    RFDrive.spin(directionType::fwd, Controller1.Axis3.position()/2, percentUnits::pct);
-    RRDrive.spin(directionType::fwd, Controller1.Axis3.position()/2, percentUnits::pct);
-    LFDrive.spin(directionType::fwd, Controller1.Axis2.position()/2, percentUnits::pct);
-    LRDrive.spin(directionType::fwd, Controller1.Axis2.position()/2, percentUnits::pct);
+    RFDrive.spin(directionType::fwd, Controller1.Axis3.position()/3, percentUnits::pct);
+    RRDrive.spin(directionType::fwd, Controller1.Axis3.position()/3, percentUnits::pct);
+    LFDrive.spin(directionType::fwd, Controller1.Axis2.position()/3, percentUnits::pct);
+    LRDrive.spin(directionType::fwd, Controller1.Axis2.position()/3, percentUnits::pct);
 
 
     /*---------------------------------------------------------------------------*/
@@ -183,7 +188,7 @@ void usercontrol(void) {
   	{
   		if (Controller1.ButtonL1.pressing() == true)
       {
-        if (armExtMotor.position(degrees) >= 570)
+        if (armExtMotor.position(degrees) >= 740)
         {
           armExtMotor.stop();
         } else {
@@ -222,7 +227,7 @@ void usercontrol(void) {
   	{
   		if (Controller1.ButtonR1.pressing() == true)
       {
-        if (armExtMotor.position(degrees) >= 70)
+        if (armExtMotor.position(degrees) >= 260)
         {
           if (armUpMotor1.position(degrees) <= 500)
           {
@@ -237,7 +242,7 @@ void usercontrol(void) {
             armUpMotor2.spin(forward);
           }
         } else {
-          if (armUpMotor1.position(degrees) <= 300)
+          if (armUpMotor1.position(degrees) <= 400)
           {
             armUpMotor1.setVelocity(50, percent);
             armUpMotor2.setVelocity(50, percent);
