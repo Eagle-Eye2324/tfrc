@@ -168,10 +168,10 @@ void usercontrol(void) {
     /*                             Drive motor control                           */
     /*---------------------------------------------------------------------------*/
 
-    RFDrive.spin(directionType::fwd, Controller1.Axis3.position()/3, percentUnits::pct);
-    RRDrive.spin(directionType::fwd, Controller1.Axis3.position()/3, percentUnits::pct);
-    LFDrive.spin(directionType::fwd, Controller1.Axis2.position()/3, percentUnits::pct);
-    LRDrive.spin(directionType::fwd, Controller1.Axis2.position()/3, percentUnits::pct);
+    RFDrive.spin(directionType::fwd, Controller1.Axis3.position()/2.5, percentUnits::pct);
+    RRDrive.spin(directionType::fwd, Controller1.Axis3.position()/2.5, percentUnits::pct);
+    LFDrive.spin(directionType::fwd, Controller1.Axis2.position()/2.5, percentUnits::pct);
+    LRDrive.spin(directionType::fwd, Controller1.Axis2.position()/2.5, percentUnits::pct);
 
 
     /*---------------------------------------------------------------------------*/
@@ -231,35 +231,31 @@ void usercontrol(void) {
         {
           if (armUpMotor1.position(degrees) <= 500)
           {
-            armUpMotor1.setVelocity(50, percent);
-            armUpMotor2.setVelocity(50, percent);
+            armUpMotor1.setVelocity(40, percent);
+            armUpMotor2.setVelocity(40, percent);
             armUpMotor1.spin(forward);
             armUpMotor2.spin(forward);
           } else {
-            armUpMotor1.setVelocity(1, percent);
-            armUpMotor2.setVelocity(1, percent);
-            armUpMotor1.spin(forward);
-            armUpMotor2.spin(forward);
+            armUpMotor1.stop();
+            armUpMotor2.stop();
           }
         } else {
           if (armUpMotor1.position(degrees) <= 400)
           {
-            armUpMotor1.setVelocity(50, percent);
-            armUpMotor2.setVelocity(50, percent);
+            armUpMotor1.setVelocity(40, percent);
+            armUpMotor2.setVelocity(40, percent);
             armUpMotor1.spin(forward);
             armUpMotor2.spin(forward);
           } else {
-            armUpMotor1.setVelocity(1, percent);
-            armUpMotor2.setVelocity(1, percent);
-            armUpMotor1.spin(forward);
-            armUpMotor2.spin(forward);
+            armUpMotor1.stop();
+            armUpMotor2.stop();
           }
         }
       } else {
         if (Controller1.ButtonR2.pressing() == true)
         {
-          armUpMotor1.setVelocity(50, percent);
-          armUpMotor2.setVelocity(50, percent);
+          armUpMotor1.setVelocity(40, percent);
+          armUpMotor2.setVelocity(40, percent);
           armUpMotor1.spin(reverse);
           armUpMotor2.spin(reverse);
         }
