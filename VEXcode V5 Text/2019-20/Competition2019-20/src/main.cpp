@@ -39,6 +39,15 @@ bool armExtPressed;
 bool armUpPressed;
 bool clawOpen;
 bool clawBtnPressed;
+float driveMultiplier = 0.40;
+
+void increaseMultiplier() {
+  driveMultiplier += 0.1;
+}
+
+void decreaseMultiplier() {
+  driveMultiplier -= 0.1;
+}
 
 /*---------------------------------------------------------------------------*/
 /*                          Pre-Autonomous Functions                         */
@@ -313,6 +322,15 @@ void usercontrol(void) {
     {
       clawMotor.resetRotation();
     }
+    
+    /*---------------------------------------------------------------------------*/
+    /*                         Drive motor speed control                         */
+    /*---------------------------------------------------------------------------*/
+    Controller1.ButtonUp.pressed(increaseMultiplier);
+    Controller1.ButtonDown.pressed(decreaseMultiplier);
+    Controller1.Screen.setCursor(1, 2);
+    Controller1.Screen.print("Drive multiplier: %d%%", driveMultiplier*100);
+
     /*==============================User control end=============================*/
 
     wait(20, msec); // Sleep the task for a short amount of time to
