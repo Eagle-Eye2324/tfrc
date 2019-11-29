@@ -26,6 +26,7 @@
 
 #include "vex.h"
 #include <stdio.h>
+#include "callbacks.h"
 
 using namespace vex;
 
@@ -34,20 +35,7 @@ competition Competition;
 
 // define your global instances of motors and other devices here
 
-// define your variables here
-bool armExtPressed;
-bool armUpPressed;
-bool clawOpen;
-bool clawBtnPressed;
-float driveMultiplier = 0.40;
-
-void increaseMultiplier() {
-  driveMultiplier += 0.1;
-}
-
-void decreaseMultiplier() {
-  driveMultiplier -= 0.1;
-}
+// define your variables here - at least ones that aren't defined in callbacks.cpp
 
 /*---------------------------------------------------------------------------*/
 /*                          Pre-Autonomous Functions                         */
@@ -131,6 +119,8 @@ void autonomous(void) {
   printf("Brain Battery Capacity: %lu%%", Brain.Battery.capacity());
   printf("Brain Battery Temperature: %f%%", Brain.Battery.temperature(temperatureUnits::celsius));
 
+
+  // Begin autonomous
   RFDrive.spin(forward, 100, percent);
   LFDrive.spin(forward, 100, percent);
   RRDrive.spin(forward, 100, percent);
@@ -145,6 +135,8 @@ void autonomous(void) {
   LFDrive.stop();
   RRDrive.stop();
   LRDrive.stop();
+  
+  // End autonomous
 }
 
 /*---------------------------------------------------------------------------*/
@@ -173,163 +165,42 @@ void usercontrol(void) {
 
     /*=============================User control start============================*/
 
-    /*---------------------------------------------------------------------------*/
-    /*                             Drive motor control                           */
-    /*---------------------------------------------------------------------------*/
-
-    RFDrive.spin(directionType::fwd, Controller1.Axis3.position()/2.5, percentUnits::pct);
-    RRDrive.spin(directionType::fwd, Controller1.Axis3.position()/2.5, percentUnits::pct);
-    LFDrive.spin(directionType::fwd, Controller1.Axis2.position()/2.5, percentUnits::pct);
-    LRDrive.spin(directionType::fwd, Controller1.Axis2.position()/2.5, percentUnits::pct);
+    // Drive motor control
+    RFDrive.spin(directionType::fwd, Controller1.Axis3.position()*driveMultiplier, percentUnits::pct);
+    RRDrive.spin(directionType::fwd, Controller1.Axis3.position()*driveMultiplier, percentUnits::pct);
+    LFDrive.spin(directionType::fwd, Controller1.Axis2.position()*driveMultiplier, percentUnits::pct);
+    LRDrive.spin(directionType::fwd, Controller1.Axis2.position()*driveMultiplier, percentUnits::pct);
 
 
-    /*---------------------------------------------------------------------------*/
-    /*                           Arm extenstion control                          */
-    /*---------------------------------------------------------------------------*/
-
-    if (Controller1.ButtonL1.pressing() == true||Controller1.ButtonL2.pressing() == true)
-  	{
-  		armExtPressed = true;
-  	} else {
-      armExtPressed = false;
-    }
-  	if (armExtPressed == true)
-  	{
-  		if (Controller1.ButtonL1.pressing() == true)
-      {
-        if (armExtMotor.position(degrees) >= 740)
-        {
-          armExtMotor.stop();
-        } else {
-          armExtMotor.spin(forward);
-        }
-        
-      } else {
-        if (Controller1.ButtonL2.pressing() == true)
-        {
-          if (armExtMotor.position(degrees) <= 0)
-          {
-            armExtMotor.stop();
-          } else {
-            armExtMotor.spin(reverse);
-          }
-        }
-      }
-  	}
-    if (armExtPressed == false)
-    {
-      armExtMotor.stop();
-    }
+    // Arm extenstion control
+    Controller1.ButtonL1.pressed(armOut);
+    Controller1.ButtonL1.released(stopArmExtenstion);
+    Controller1.ButtonL2.pressed(armIn);
+    Controller1.ButtonL2.released(stopArmExtenstion);
 
 
-    /*---------------------------------------------------------------------------*/
-    /*                           Arm elevation control                           */
-    /*---------------------------------------------------------------------------*/
+    // Arm elevation control
+    Controller1.ButtonR1.pressed(armUp);
+    Controller1.ButtonR1.released(stopArmElevation);
+    Controller1.ButtonR2.pressed(armDown);
+    Controller1.ButtonR2.released(stopArmElevation);
 
-    if (Controller1.ButtonR1.pressing() == true||Controller1.ButtonR2.pressing() == true)
-  	{
-  		armUpPressed = true;
-  	} else {
-      armUpPressed = false;
-    }
-  	if (armUpPressed == true)
-  	{
-  		if (Controller1.ButtonR1.pressing() == true)
-      {
-        if (armExtMotor.position(degrees) >= 260)
-        {
-          if (armUpMotor1.position(degrees) <= 500)
-          {
-            armUpMotor1.setVelocity(40, percent);
-            armUpMotor2.setVelocity(40, percent);
-            armUpMotor1.spin(forward);
-            armUpMotor2.spin(forward);
-          } else {
-            armUpMotor1.stop();
-            armUpMotor2.stop();
-          }
-        } else {
-          if (armUpMotor1.position(degrees) <= 400)
-          {
-            armUpMotor1.setVelocity(40, percent);
-            armUpMotor2.setVelocity(40, percent);
-            armUpMotor1.spin(forward);
-            armUpMotor2.spin(forward);
-          } else {
-            armUpMotor1.stop();
-            armUpMotor2.stop();
-          }
-        }
-      } else {
-        if (Controller1.ButtonR2.pressing() == true)
-        {
-          armUpMotor1.setVelocity(40, percent);
-          armUpMotor2.setVelocity(40, percent);
-          armUpMotor1.spin(reverse);
-          armUpMotor2.spin(reverse);
-        }
-      }
-  	}
-    if (armUpPressed == false)
-    {
-      armUpMotor1.stop();
-      armUpMotor2.stop();
-    }
 
-    /*---------------------------------------------------------------------------*/
-    /*                                Claw control                               */
-    /*---------------------------------------------------------------------------*/
+    // Claw control
+    Controller1.ButtonRight.pressed(closeClaw);
+    Controller1.ButtonRight.released(stopClaw);
+    Controller1.ButtonLeft.pressed(openClaw);
+    Controller1.ButtonLeft.released(stopClaw);
+    Controller1.ButtonA.pressed(clawControl);
+    Controller1.ButtonA.released(stopClaw);
 
-    if (Controller1.ButtonA.pressing() == true)
-  	{
-  		clawBtnPressed = true;
-  	}
-  	if (Controller1.ButtonA.pressing() == false && clawBtnPressed == true)
-  	{
-  		clawBtnPressed = false;
-  		if (clawOpen == true)
-  		{
-        clawMotor.spin(reverse, 100, percent);
-        wait(0.25, seconds);
-        clawMotor.stop();
-  			clawOpen = false;
-  		}
-  		else
-  		{
-  			clawMotor.spinToPosition(180, degrees);
-  			clawOpen = true;
-  		}
-  	}
-
-    if (Controller1.ButtonRight.pressing() || Controller1.ButtonLeft.pressing())
-    {
-      clawMotor.resetRotation();
-      if (Controller1.ButtonRight.pressing())
-      {
-        clawMotor.spin(forward, 50, percent);
-      }
-      if (Controller1.ButtonLeft.pressing())
-      {
-        clawMotor.spin(reverse, 50, percent);
-      }
-    }
-    if (!(Controller1.ButtonRight.pressing() || Controller1.ButtonLeft.pressing()) && clawBtnPressed == false)
-    {
-      clawMotor.stop();
-    }
-
-    if (Controller1.ButtonY.pressing())
-    {
-      clawMotor.resetRotation();
-    }
     
-    /*---------------------------------------------------------------------------*/
-    /*                         Drive motor speed control                         */
-    /*---------------------------------------------------------------------------*/
+    // Drive motor speed control
     Controller1.ButtonUp.pressed(increaseMultiplier);
     Controller1.ButtonDown.pressed(decreaseMultiplier);
-    Controller1.Screen.setCursor(1, 2);
-    Controller1.Screen.print("Drive multiplier: %d%%", driveMultiplier*100);
+    Controller1.Screen.setCursor(2, 1);
+    Controller1.Screen.print("Drive multiplier: %f%%", driveMultiplier);
+    printf("%f%%", driveMultiplier);
 
     /*==============================User control end=============================*/
 
