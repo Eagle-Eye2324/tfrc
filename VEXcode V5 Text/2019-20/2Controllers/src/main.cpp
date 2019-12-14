@@ -26,6 +26,7 @@
 
 #include "vex.h"
 #include <stdio.h>
+#include "callbacks.h"
 
 using namespace vex;
 

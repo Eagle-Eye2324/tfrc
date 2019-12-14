@@ -196,11 +196,11 @@ void usercontrol(void) {
 
     
     // Drive motor speed control
-    Controller1.ButtonUp.pressed(increaseMultiplier);
-    Controller1.ButtonDown.pressed(decreaseMultiplier);
-    Controller1.Screen.setCursor(2, 1);
-    Controller1.Screen.print("Drive multiplier: %f%%", driveMultiplier);
-    printf("%f%%", driveMultiplier);
+    // Controller1.ButtonUp.pressed(increaseMultiplier);
+    // Controller1.ButtonDown.pressed(decreaseMultiplier);
+    // Controller1.Screen.setCursor(2, 1);
+    // Controller1.Screen.print("Drive speed: %f%%", driveMultiplier);
+    // printf("%f%%", driveMultiplier);
 
     /*==============================User control end=============================*/
 

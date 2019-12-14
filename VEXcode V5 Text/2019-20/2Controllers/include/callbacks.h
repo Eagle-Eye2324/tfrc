@@ -14,7 +14,7 @@ bool armExtPressed;
 bool armUpPressed;
 bool clawOpen;
 bool clawBtnPressed;
-float driveMultiplier = 0.4;
+float driveMultiplier = 0.40;
 
 /*---------------------------------------------------------------------------*/
 /*                         Drive motor speed control                         */
@@ -29,6 +29,7 @@ void increaseMultiplier() {
 void decreaseMultiplier() {
   driveMultiplier -= 0.1;
 }
+
 
 /*---------------------------------------------------------------------------*/
 /*                                Claw control                               */
@@ -68,7 +69,7 @@ void clawControl() {
 /*---------------------------------------------------------------------------*/
 
 // Raises the arm
-void armUp() {
+void armControl() {
   if (armExtMotor.position(degrees) >= 260)
   {
     if (armUpMotor1.position(degrees) <= 500)
@@ -97,8 +98,6 @@ void armUp() {
 
 // Lowers the arm
 void armDown() {
-  armUpMotor1.setVelocity(40, percent);
-  armUpMotor2.setVelocity(40, percent);
   armUpMotor1.spin(reverse);
   armUpMotor2.spin(reverse);
 }
@@ -110,40 +109,3 @@ void stopArmElevation() {
 }
 
 
-/*---------------------------------------------------------------------------*/
-/*                           Arm extenstion control                          */
-/*---------------------------------------------------------------------------*/
-
-// Extends the arm
-void armOut() {
-  if (armExtMotor.position(degrees) >= 740)
-  {
-    armExtMotor.stop();
-  } else {
-    armExtMotor.spin(forward);
-  }
-}
-
-// Retracts the arm
-void armIn() {
-  if (armUpMotor1.position(degrees) >= 400)
-  {
-    if (armExtMotor.position(degrees) <= 260)
-    {
-      armExtMotor.stop();
-    } else {
-      armExtMotor.spin(reverse);
-    }
-  } else {
-    if (armExtMotor.position(degrees) <= 0)
-    {
-      armExtMotor.stop();
-    } else {
-      armExtMotor.spin(reverse);
-    }
-  }
-}
-
-void stopArmExtenstion() {
-  armExtMotor.stop();
-}
