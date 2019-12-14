@@ -155,10 +155,10 @@ void usercontrol(void) {
     /*                             Drive motor control                           */
     /*---------------------------------------------------------------------------*/
 
-    RFDrive.spin(directionType::fwd, Controller1.Axis3.position()/2, percentUnits::pct);
-    RRDrive.spin(directionType::fwd, Controller1.Axis3.position()/2, percentUnits::pct);
-    LFDrive.spin(directionType::fwd, Controller1.Axis2.position()/2, percentUnits::pct);
-    LRDrive.spin(directionType::fwd, Controller1.Axis2.position()/2, percentUnits::pct);
+    RFDrive.spin(directionType::fwd, Controller1.Axis3.position()/2.5, percentUnits::pct);
+    RRDrive.spin(directionType::fwd, Controller1.Axis3.position()/2.5, percentUnits::pct);
+    LFDrive.spin(directionType::fwd, Controller1.Axis2.position()/2.5, percentUnits::pct);
+    LRDrive.spin(directionType::fwd, Controller1.Axis2.position()/2.5, percentUnits::pct);
 
 
     /*---------------------------------------------------------------------------*/

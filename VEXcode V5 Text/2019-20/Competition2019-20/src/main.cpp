@@ -118,7 +118,7 @@ void autonomous(void) {
   Controller1.Screen.setCursor(1, 1);
   Controller1.Screen.print("Brain Battery: %d%%", Brain.Battery.capacity());
 
-  //  print all the stuff to the computer
+  // Print all the stuff to the computer
   printf("Brain Battery Capacity: %lu%%", Brain.Battery.capacity());
   printf("Brain Battery Temperature: %f%%", Brain.Battery.temperature(temperatureUnits::celsius));
 
